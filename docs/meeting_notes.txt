@@ -1,0 +1,4 @@
+- quiz freq accessed buttons - mock ui 
+- apply default design 
+- title, heading, bullets, quiz  positioning -> manual code 
+- browse gen content -> feedback / react / comment 
