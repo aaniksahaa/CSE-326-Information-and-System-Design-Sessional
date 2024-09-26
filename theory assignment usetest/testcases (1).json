@@ -1,0 +1,371 @@
+[
+    {
+        "usecase": {
+            "name": "Update Workspace Name",
+            "scenario": "User updates the name of current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User enters workspace name"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Name Selection",
+                "description": "Verify that the user can successfully update the workspace name with a valid input.",
+                "input": {
+                    "workspaceName": "New Workspace Name"
+                },
+                "expected": {
+                    "outcome": "Workspace name updated",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Empty Workspace Name",
+                "description": "Verify that the user cannot update the workspace name with an empty input.",
+                "input": {
+                    "workspaceName": ""
+                },
+                "expected": {
+                    "outcome": "Workspace name not updated",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Upload Workspace Icon",
+            "scenario": "User updates the icon of current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User selects workspace icon"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Icon Selection",
+                "description": "Verify that the user can successfully update the workspace icon with a valid file.",
+                "input": {
+                    "workspaceIcon": "icon.jpg",
+                    "fileSize": "1MB",
+                    "mimeType": "image/jpeg"
+                },
+                "expected": {
+                    "outcome": "Workspace icon updated",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Empty Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon without selecting a file.",
+                "input": {
+                    "workspaceIcon": "",
+                    "fileSize": "0MB",
+                    "mimeType": ""
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Invalid Workspace Icon File Type",
+                "description": "Verify that the user cannot update the workspace icon with an invalid file type.",
+                "input": {
+                    "workspaceIcon": "icon.exe",
+                    "fileSize": "1MB",
+                    "mimeType": "application/octet-stream"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Corrupted Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon with a valid file type but corrupted data.",
+                "input": {
+                    "workspaceIcon": "icon.png",
+                    "fileSize": "1MB",
+                    "mimeType": "text/plain"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Large Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon with a file that exceeds the maximum file size.",
+                "input": {
+                    "workspaceIcon": "icon.jpg",
+                    "fileSize": "10MB",
+                    "mimeType": "image/jpeg"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Delete Workspace",
+            "scenario": "User deletes the current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User types 'Workspace Name' confirms deletion"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Correct Workspace Name",
+                "description": "Verify that the user can successfully delete the workspace with the correct workspace name.",
+                "input": {
+                    "workspaceName": "Workspace Name"
+                },
+                "expected": {
+                    "outcome": "Workspace deleted",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Incorrect Workspace Name",
+                "description": "Verify that the user cannot delete the workspace with an incorrect workspace name.",
+                "input": {
+                    "workspaceName": "Incorrect Name"
+                },
+                "expected": {
+                    "outcome": "Workspace not deleted",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Export Workspace",
+            "scenario": "User exporst entire workspace data to a file",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User selects format of export file",
+                "User selects if databases should be included",
+                "User selects content to be exported",
+                "User selects if subfolders should be created for subpages",
+                "User starts the export process"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Correct Export Format",
+                "description": "Verify that the user can successfully export the workspace with the correct workspace export format.",
+                "input": {
+                    "exportFormat": "pdf"
+                },
+                "expected": {
+                    "outcome": "Workspace exported in desired format",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Incorrect Export Format",
+                "description": "Verify that the user cannot export the workspace with incorrect workspace export format.",
+                "input": {
+                    "exportFormat": "mp3"
+                },
+                "expected": {
+                    "outcome": "Workspace not exported",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Include Databases",
+                "description": "Verify that the user can successfully export the workspace with databases included.",
+                "input": {
+                    "includeDatabases": "true"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Include Databases in Current View",
+                "description": "Verify that the user can successfully export the workspace with databases included in the current view.",
+                "input": {
+                    "includeDatabases": "current"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Include Databases in Default View",
+                "description": "Verify that the user can successfully export the workspace with databases included in the default view.",
+                "input": {
+                    "includeContent": "default"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Include only Text",
+                "description": "Verify that the user can successfully export the workspace without files or images.",
+                "input": {
+                    "includeContent": "No files or images"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Create Subfolders",
+                "description": "Verify that the user can successfully export the workspace with subfolders created for subpages.",
+                "input": {
+                    "createSubfolders": "true"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Do Not Create Subfolders",
+                "description": "Verify that the user can successfully export the workspace without subfolders created for subpages.",
+                "input": {
+                    "createSubfolders": "false"
+                },
+                "expected": {
+                    "outcome": "Workspace exported",
+                    "status": "Approved"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Import Workspace",
+            "scenario": "User imports entire workspace data from a file or cloud storage",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User uploads the file to be imported",
+                "Alternatively, user selects a cloud storage"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace File",
+                "description": "Verify that the user can successfully import the workspace with a valid file.",
+                "input": {
+                    "workspaceFile": "workspace.csv"
+                },
+                "expected": {
+                    "outcome": "Workspace imported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Invalid Workspace File",
+                "description": "Verify that the user cannot import the workspace with an invalid file.",
+                "input": {
+                    "workspaceFile": "workspace.mkv"
+                },
+                "expected": {
+                    "outcome": "Workspace not imported",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Valid Workspace Cloud Storage",
+                "description": "Verify that the user can successfully import the workspace from a valid cloud storage.",
+                "input": {
+                    "workspaceCloud": "Google Drive"
+                },
+                "expected": {
+                    "outcome": "Workspace imported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Invalid Workspace Cloud Storage",
+                "description": "Verify that the user cannot import the workspace from an invalid cloud storage.",
+                "input": {
+                    "workspaceCloud": "Moodle"
+                },
+                "expected": {
+                    "outcome": "Workspace not imported",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add Member to Workspace",
+            "scenario": "User adds a member to the current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User searches the email of the member to be added",
+                "User selects the person to be added or alternatively sends an invitation email"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Invalid Email",
+                "description": "Verify that the user cannot send an invitation to a member with an invalid email.",
+                "input": {
+                    "email": "inval$@#idemail@aasda.23"
+                },
+                "expected": {
+                    "outcome": "Invitation not sent",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Person Already in Workspace",
+                "description": "Verify that the user cannot add a person to the workspace who is already a member.",
+                "input": {
+                    "email": "alreadyadded@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Person not added",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Person Found on Search",
+                "description": "Verify that the user can successfully add a person to the workspace.",
+                "input": {
+                    "email": "validemail@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Person added",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Person not Found on Search",
+                "description": "Verify that the user can successfully send an invitation to a person to join the workspace.",
+                "input": {
+                    "email": "validemail@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Invitation sent",
+                    "status": "Approved"
+                }
+            }
+        ]
+    }
+]

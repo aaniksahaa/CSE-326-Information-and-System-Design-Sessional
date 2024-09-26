@@ -1,0 +1,288 @@
+[
+    {
+        "usecase": {
+            "name": "Creation of New Workspace",
+            "scenario": "User creates a new workspace from their account.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User does not exceed the maximum number of workspaces allowed."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User selects 'Create or Join Workspace'.",
+                "User enters the workspace name and email domain, if applicable.",
+                "User clicks 'Create' to complete the process."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Workspace Creation",
+                "description": "Verify that the user can successfully create a new workspace with a unique name.",
+                "input": {
+                    "workspaceName": "ISD A1 G-4",
+                    "emailDomain": "ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Workspace created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Duplicate Workspace Name",
+                "description": "Verify that creating a workspace with an existing name does not matter",
+                "input": {
+                    "workspaceName": "Existing Workspace"
+                
+                },
+                "expected": {
+                    "outcome": "Workspace created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Exceeding Workspace Limit",
+                "description": "Verify that the user cannot create more workspaces than their plan allows.",
+                "input": {
+                    "workspaceName": "New Workspace"
+                
+                },
+                "expected": {
+                    "outcome": "Workspace creation failed due to exceeding workspace limit.",
+                    "status": "Not Created"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Switching Workspaces",
+            "scenario": "User switches between multiple workspaces they are a part of.",
+            "actors": "User",
+            "preconditions": [
+                "User is a member of multiple workspaces.",
+                "User is logged in."
+            ],
+            "steps": [
+                "User clicks on their profile picture in the top-left corner.",
+                "User selects the workspace they want to switch to from the dropdown menu.",
+                "User is redirected to the selected workspace."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Workspace Switch",
+                "description": "Verify that the user can successfully switch to another workspace.",
+                "input": {
+                    "workspaceName": "Development Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace switched successfully.",
+                    "status": "Switched"
+                }
+            },
+            {
+                "name": "Switch to Unavailable Workspace",
+                "description": "Verify that the user cannot switch to a workspace they have left or been removed from.",
+                "input": {
+                    "workspaceName": "Unavailable Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace switch failed due to unavailable access.",
+                    "status": "Not Switched"
+                }
+            },
+            {
+                "name": "Switch to Same Workspace",
+                "description": "Verify that selecting the current workspace does not reload or cause any issues.",
+                "input": {
+                    "workspaceName": "Current Workspace"
+                },
+                "expected": {
+                    "outcome": "No action taken; remains in the same workspace.",
+                    "status": "No Change"
+                }
+            }
+        ]
+    },
+
+
+    {
+        "usecase": {
+            "name": "Joining an Existing Workspace",
+            "scenario": "User joins an existing workspace by invitation or allowed domain.",
+            "actors": "User",
+            "preconditions": [
+                "User has received an invitation or has an email matching the allowed domain.",
+                "User is logged into their Notion account."
+            ],
+            "steps": [
+                "User clicks on the invitation link or logs in with an email matching the allowed domain.",
+                "User accepts the invitation to join the workspace."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Join via Invitation",
+                "description": "Verify that the user can join the workspace successfully using an invitation link.",
+                "input": {
+                    "invitationLink": "valid-invite-link"
+                },
+                "expected": {
+                    "outcome": "Joined workspace successfully.",
+                    "status": "Joined"
+                }
+            },
+            {
+                "name": "Join with Invalid Invitation",
+                "description": "Verify that the user cannot join the workspace using an expired or invalid invitation link.",
+                "input": {
+                    "invitationLink": "invalid-invite-link"
+                },
+                "expected": {
+                    "outcome": "Join failed due to invalid invitation.",
+                    "status": "Not Joined"
+                }
+            },
+            {
+                "name": "Join via Allowed Domain",
+                "description": "Verify that the user can join the workspace using an email with an allowed domain.",
+                "input": {
+                    "email": "2005017@ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Joined workspace successfully using allowed domain.",
+                    "status": "Joined"
+                }
+            },
+            {
+                "name": "Join via Restricted Domain",
+                "description": "Verify that the user cannot join the workspace using an email with a restricted domain.",
+                "input": {
+                    "email": "user@restricteddomain.com"
+                },
+                "expected": {
+                    "outcome": "Join failed due to restricted domain.",
+                    "status": "Not Joined"
+                }
+            }
+        ]
+    }
+    ,
+        {
+            "usecase": {
+                "name": "Leaving a Workspace",
+                "scenario": "User leaves a workspace they are a member of.",
+                "actors": "User",
+                "preconditions": [
+                    "User is logged into their Notion account.",
+                    "User is a member of the workspace."
+                ],
+                "steps": [
+                    "User navigates to 'Settings & Members' in the sidebar.",
+                    "User clicks on the 'Leave Workspace' button.",
+                    "User confirms the action in the dialog box."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Successful Workspace Leave",
+                    "description": "Verify that the user can successfully leave a workspace they are a member of.",
+                    "input": {
+                        "workspaceName": "Project Workspace"
+                    },
+                    "expected": {
+                        "outcome": "User left the workspace successfully.",
+                        "status": "Left"
+                    }
+                },
+                {
+                    "name": "Leave Non-Member Workspace",
+                    "description": "Verify that the user cannot leave a workspace they are not a member of.",
+                    "input": {
+                        "workspaceName": "Non-Member Workspace"
+                    },
+                    "expected": {
+                        "outcome": "Leave action failed because the user is not a member.",
+                        "status": "Not Left"
+                    }
+                },
+                {
+                    "name": "Cancel Leave Workspace",
+                    "description": "Verify that the user can cancel the leave action in the confirmation dialog.",
+                    "input": {
+                        "action": "Cancel"
+                    },
+                    "expected": {
+                        "outcome": "Leave action canceled.",
+                        "status": "Not Left"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Adding Another Account",
+                "scenario": "User adds another email account to their Notion account.",
+                "actors": "User",
+                "preconditions": [
+                    "User is logged into their primary Notion account.",
+                    "User has access to the secondary email account."
+                ],
+                "steps": [
+                    "User navigates to 'Settings & Members' in the sidebar.",
+                    "User clicks on 'My Account' and selects 'Add Email'.",
+                    "User enters the new email address and verifies it through the email link sent.",
+                    "User confirms the new email as added to their account."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Successful Account Addition",
+                    "description": "Verify that the user can successfully add another email account to their Notion account.",
+                    "input": {
+                        "newEmail": "amimulamim@gmail.com"
+                    },
+                    "expected": {
+                        "outcome": "New email added to the account successfully.Now all the workspaces related to the accounts are accessible from the Notion account",
+                        "status": "Added"
+                    }
+                },
+                {
+                    "name": "Invalid Email Format",
+                    "description": "Verify that the system prevents adding an email with an invalid format.",
+                    "input": {
+                        "newEmail": "invalid-email"
+                    },
+                    "expected": {
+                        "outcome": "Failed to add new email due to invalid format.",
+                        "status": "Not Added"
+                    }
+                },
+                {
+                    "name": "Email Already Linked",
+                    "description": "Verify that the system prevents adding an email that is already linked to the account.",
+                    "input": {
+                        "newEmail": "2005017existing@gmail.com"
+                    },
+                    "expected": {
+                        "outcome": "No action taken; remains in the same",
+                        "status": "No change"
+                    }
+                },
+                {
+                    "name": "Verify Email for Account Addition",
+                    "description": "Verify that the user must verify the email through the link sent to successfully add the account.",
+                    "input": {
+                        "newEmail": "amimulamim@gmail.com"
+                    },
+                    "expected": {
+                        "outcome": "Email added successfully after verification.",
+                        "status": "Verified and Added"
+                    }
+                }
+            ]
+        }
+    
+    
+]

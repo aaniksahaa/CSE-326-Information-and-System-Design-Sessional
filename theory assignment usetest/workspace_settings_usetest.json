@@ -1,0 +1,372 @@
+[
+    [
+        {
+            "usecase": {
+                "name": "Add Members to Workspace",
+                "scenario": "User adds new members to the workspace and assigns roles.",
+                "actors": "User",
+                "preconditions": [
+                    "User is a workspace owner with permissions to add members.",
+                    "Workspace owner has a Plus subscription to assign 'Member' role."
+                ],
+                "steps": [
+                    "User navigates to 'Settings' under the workspace menu.",
+                    "User clicks on 'People' and selects 'Add members'.",
+                    "User enters the email address of the new member.",
+                    "User selects the appropriate role ('Workspace Owner' or 'Member', if applicable).",
+                    "User clicks 'Invite' to send the invitation."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Add Valid Member with Plus Subscription",
+                    "description": "Verify that the user can successfully add a member with the 'Member' role when the workspace has a Plus subscription.",
+                    "input": {
+                        "email": "2005017@ugrad.cse.buet.ac.bd",
+                        "role": "Member"
+                    },
+                    "expected": {
+                        "outcome": "Invitation sent successfully with 'Member' role assigned.",
+                        "status": "Invited"
+                    }
+                },
+                {
+                    "name": "Add Member Without Plus Subscription",
+                    "description": "Verify that when the user does not have a Plus subscription, all new members are assigned the 'Owner' role.",
+                    "input": {
+                        "email": "2005017@ugrad.cse.buet.ac.bd",
+                        "role": "Member"
+                    },
+                    "expected": {
+                        "outcome": "Role selection defaults to 'Owner' as 'Member' role is not available without Plus subscription.",
+                        "status": "Assigned Owner Role"
+                    }
+                },
+                {
+                    "name": "Add Member with Invalid Email",
+                    "description": "Verify that the system handles invalid email addresses during member addition.",
+                    "input": {
+                        "email": "invalid-email",
+                        "role": "Owner"
+                    },
+                    "expected": {
+                        "outcome": "Failed to send invitation due to invalid email format.",
+                        "status": "Not Invited"
+                    }
+                },
+                {
+                    "name": "Assign Workspace Owner Role",
+                    "description": "Verify that the user can assign the 'Workspace Owner' role to a new member regardless of subscription.",
+                    "input": {
+                        "email": "amimul.ehsan2001@gmail.com",
+                        "role": "Workspace Owner"
+                    },
+                    "expected": {
+                        "outcome": "Member added with 'Workspace Owner' role.",
+                        "status": "Role Assigned"
+                    }
+                },
+                {
+                    "name": "Invite Using Restricted Domain",
+                    "description": "Verify that the system prevents adding members with email addresses from restricted domains.",
+                    "input": {
+                        "email": "user@restricted.com",
+                        "role": "Member"
+                    },
+                    "expected": {
+                        "outcome": "Failed to send invitation due to restricted domain.",
+                        "status": "Not Invited"
+                    }
+                }
+            ]
+        }
+    ],
+    {
+        "usecase": {
+            "name": "Managing Allowed Email Domains",
+            "scenario": "User sets or updates allowed email domains for the workspace.",
+            "actors": "User",
+            "preconditions": "User is a workspace owner with permissions to modify settings.",
+            "steps": [
+                "User navigates to 'Settings' under the workspace menu.",
+                "User scrolls to 'Allowed email domains'.",
+                "User enters the domain name to be allowed (e.g., 'company.com','ugrad.cse.buet.ac.bd').",
+                "User clicks 'Update' to save changes."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Valid Allowed Domain",
+                "description": "Verify that the user can add a valid email domain to the allowed list.",
+                "input": {
+                    "allowedDomain": "company.com"
+                },
+                "expected": {
+                    "outcome": "Domain added successfully to the allowed list.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Adding Invalid Allowed Domain",
+                "description": "Verify that the system handles invalid domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "invalid-domain"
+                },
+                "expected": {
+                    "outcome": "Field not shown to be updated",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Adding Public Domain",
+                "description": "Verify that the system handles public domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "gmail.com"
+                },
+                "expected": {
+                    "outcome": "Sorry ,this domain not allowed.",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Adding Educational Domain",
+                "description": "Verify that the system handles public domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Sorry ,educational domain not allowed.",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Removal Allowed Domain",
+                "description": "Verify that the user can remove a previously added domain from the allowed list.",
+                "input": {
+                    "allowedDomain": "company.com"
+                },
+                "expected": {
+                    "outcome": "Domain removed successfully from the allowed list.",
+                    "status": "Updated"
+                }
+            }
+        ]
+    },
+    
+        {
+            "usecase": {
+                "name": "Export Workspace Content",
+                "scenario": "User exports all workspace content for backup, sharing, or legal purposes.",
+                "actors": "User",
+                "preconditions": [
+                    "User is a workspace owner with permissions to export content.",
+                    "User has a Business or Enterprise plan for PDF export."
+                ],
+                "steps": [
+                    "User navigates to 'Settings' under the workspace menu.",
+                    "User clicks on 'Export all workspace content'.",
+                    "User selects export options such as format (Markdown, HTML, CSV, PDF) and content inclusion.",
+                    "User clicks 'Export' to download the content."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Valid Export as Markdown & CSV",
+                    "description": "Verify that the user can successfully export all workspace content in Markdown & CSV format.",
+                    "input": {
+                        "exportFormat": "Markdown & CSV",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "Workspace content exported successfully.",
+                        "status": "Exported"
+                    }
+                },
+                {
+                    "name": "Valid Export as HTML",
+                    "description": "Verify that the user can successfully export all workspace content in HTML format.",
+                    "input": {
+                        "exportFormat": "HTML",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "Workspace content exported successfully in HTML format.",
+                        "status": "Exported"
+                    }
+                },
+                {
+                    "name": "Valid Export as PDF with Enterprise Plan",
+                    "description": "Verify that the user can export workspace content as PDF when subscribed to an Enterprise plan.",
+                    "input": {
+                        "exportFormat": "PDF",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "Workspace content exported successfully in PDF format.",
+                        "status": "Exported"
+                    }
+                },
+                {
+                    "name": "PDF Export without Enterprise Plan",
+                    "description": "Verify that PDF export is not available without an Enterprise plan.",
+                    "input": {
+                        "exportFormat": "PDF",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "PDF export failed due to lack of Enterprise plan.",
+                        "status": "Not Exported"
+                    }
+                },
+                {
+                    "name": "Export with Insufficient Permissions",
+                    "description": "Verify that members without export permissions cannot export workspace content.",
+                    "input": {
+                        "exportFormat": "Markdown & CSV",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "Export failed due to insufficient permissions.",
+                        "status": "Not Exported"
+                    }
+                },
+                {
+                    "name": "Exclude Private Pages from Export",
+                    "description": "Verify that private pages of other users are not included in the export.",
+                    "input": {
+                        "exportFormat": "HTML",
+                        "includeDatabases": "All",
+                        "includeContent": "Everything"
+                    },
+                    "expected": {
+                        "outcome": "Workspace content exported successfully, excluding private pages.",
+                        "status": "Exported"
+                    }
+                }
+            ]
+        }
+    ,
+
+    {
+        "usecase": {
+            "name": " Workspace Name,Icon Update",
+            "scenario": "User updates the workspace name and icon from the settings menu.",
+            "actors": "User",
+            "preconditions": "User has admin access to the workspace settings.",
+            "steps": [
+                "User navigates to 'Settings' under the workspace menu.",
+                "User updates the 'Name' field with a new workspace name.",
+                "User selects a new icon or uploads an image.",
+                "User clicks 'Update' to save changes."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Name Update",
+                "description": "Verify that the user can update the workspace name with a valid name.",
+                "input": {
+                    "workspaceName": "New Project Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace name updated successfully.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Invalid or Empty Workspace Name Update",
+                "description": "Verify that the system handles invalid workspace names (e.g., special characters).",
+                "input": {
+                    "workspaceName": ""
+                },
+                "expected": {
+                    "outcome": "Workspace name update failed due to invalid characters.",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Icon Update",
+                "description": "Verify that the user can successfully update the workspace icon.",
+                "input": {
+                    "icon": "😊"
+                },
+                "expected": {
+                    "outcome": "Workspace icon updated successfully.",
+                    "status": "Updated"
+                }
+            }
+        ]
+    },
+
+
+
+
+
+
+
+    {
+        "usecase": {
+            "name": "Deleting Entire Workspace",
+            "scenario": "User deletes an entire workspace permanently.",
+            "actors": "User",
+            "preconditions": "User is a workspace owner and has confirmed deletion permissions.",
+            "steps": [
+                "User navigates to 'Settings' under the workspace menu.",
+                "User clicks on 'Delete entire workspace' in the 'Danger Zone' section.",
+                "User is prompted to enter the workspace name for confirmation.",
+                "User types the workspace name and clicks 'Permanently delete workspace'.",
+                "The workspace and all associated data are deleted permanently."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Deletion",
+                "description": "Verify that the user can successfully delete a workspace by entering the correct name.",
+                "input": {
+                    "workspaceName": "Project Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace deleted successfully.",
+                    "status": "Deleted"
+                }
+            },
+            {
+                "name": "Invalid Workspace Name",
+                "description": "Verify that the system does not allow deletion if the entered workspace name is incorrect.",
+                "input": {
+                    "workspaceName": "Wrong Workspace Name"
+                },
+                "expected": {
+                    "outcome": "Deletion failed due to incorrect workspace name.",
+                    "status": "Not Deleted"
+                }
+            },
+            {
+                "name": "Cancel Deletion",
+                "description": "Verify that the user can cancel the deletion process by clicking 'Cancel'.",
+                "input": {
+                    "action": "Cancel"
+                },
+                "expected": {
+                    "outcome": "Deletion process canceled.",
+                    "status": "Not Deleted"
+                }
+            },
+            {
+                "name": "Permission Check",
+                "description": "Verify that only workspace owners can access the deletion option and perform the action.",
+                "input": {
+                    "role": "Member"
+                },
+                "expected": {
+                    "outcome": "Access denied. Only workspace owners can delete the workspace.",
+                    "status": "Access Denied"
+                }
+            }
+        ]
+    }
+]
