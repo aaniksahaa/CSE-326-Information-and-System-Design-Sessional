@@ -105,8 +105,6 @@
             }
         ]
     },
-
-
     {
         "usecase": {
             "name": "Joining an Existing Workspace",
@@ -169,120 +167,118 @@
         ]
     }
     ,
-        {
-            "usecase": {
-                "name": "Leaving a Workspace",
-                "scenario": "User leaves a workspace they are a member of.",
-                "actors": "User",
-                "preconditions": [
-                    "User is logged into their Notion account.",
-                    "User is a member of the workspace."
-                ],
-                "steps": [
-                    "User navigates to 'Settings & Members' in the sidebar.",
-                    "User clicks on the 'Leave Workspace' button.",
-                    "User confirms the action in the dialog box."
-                ]
-            },
-            "testcases": [
-                {
-                    "name": "Successful Workspace Leave",
-                    "description": "Verify that the user can successfully leave a workspace they are a member of.",
-                    "input": {
-                        "workspaceName": "Project Workspace"
-                    },
-                    "expected": {
-                        "outcome": "User left the workspace successfully.",
-                        "status": "Left"
-                    }
-                },
-                {
-                    "name": "Leave Non-Member Workspace",
-                    "description": "Verify that the user cannot leave a workspace they are not a member of.",
-                    "input": {
-                        "workspaceName": "Non-Member Workspace"
-                    },
-                    "expected": {
-                        "outcome": "Leave action failed because the user is not a member.",
-                        "status": "Not Left"
-                    }
-                },
-                {
-                    "name": "Cancel Leave Workspace",
-                    "description": "Verify that the user can cancel the leave action in the confirmation dialog.",
-                    "input": {
-                        "action": "Cancel"
-                    },
-                    "expected": {
-                        "outcome": "Leave action canceled.",
-                        "status": "Not Left"
-                    }
-                }
+    {
+        "usecase": {
+            "name": "Leaving a Workspace",
+            "scenario": "User leaves a workspace they are a member of.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User is a member of the workspace."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User clicks on the 'Leave Workspace' button.",
+                "User confirms the action in the dialog box."
             ]
         },
-        {
-            "usecase": {
-                "name": "Adding Another Account",
-                "scenario": "User adds another email account to their Notion account.",
-                "actors": "User",
-                "preconditions": [
-                    "User is logged into their primary Notion account.",
-                    "User has access to the secondary email account."
-                ],
-                "steps": [
-                    "User navigates to 'Settings & Members' in the sidebar.",
-                    "User clicks on 'My Account' and selects 'Add Email'.",
-                    "User enters the new email address and verifies it through the email link sent.",
-                    "User confirms the new email as added to their account."
-                ]
-            },
-            "testcases": [
-                {
-                    "name": "Successful Account Addition",
-                    "description": "Verify that the user can successfully add another email account to their Notion account.",
-                    "input": {
-                        "newEmail": "amimulamim@gmail.com"
-                    },
-                    "expected": {
-                        "outcome": "New email added to the account successfully.Now all the workspaces related to the accounts are accessible from the Notion account",
-                        "status": "Added"
-                    }
+        "testcases": [
+            {
+                "name": "Successful Workspace Leave",
+                "description": "Verify that the user can successfully leave a workspace they are a member of.",
+                "input": {
+                    "workspaceName": "Project Workspace"
                 },
-                {
-                    "name": "Invalid Email Format",
-                    "description": "Verify that the system prevents adding an email with an invalid format.",
-                    "input": {
-                        "newEmail": "invalid-email"
-                    },
-                    "expected": {
-                        "outcome": "Failed to add new email due to invalid format.",
-                        "status": "Not Added"
-                    }
-                },
-                {
-                    "name": "Email Already Linked",
-                    "description": "Verify that the system prevents adding an email that is already linked to the account.",
-                    "input": {
-                        "newEmail": "2005017existing@gmail.com"
-                    },
-                    "expected": {
-                        "outcome": "No action taken; remains in the same",
-                        "status": "No change"
-                    }
-                },
-                {
-                    "name": "Verify Email for Account Addition",
-                    "description": "Verify that the user must verify the email through the link sent to successfully add the account.",
-                    "input": {
-                        "newEmail": "amimulamim@gmail.com"
-                    },
-                    "expected": {
-                        "outcome": "Email added successfully after verification.",
-                        "status": "Verified and Added"
-                    }
+                "expected": {
+                    "outcome": "User left the workspace successfully.",
+                    "status": "Left"
                 }
+            },
+            {
+                "name": "Leave Non-Member Workspace",
+                "description": "Verify that the user cannot leave a workspace they are not a member of.",
+                "input": {
+                    "workspaceName": "Non-Member Workspace"
+                },
+                "expected": {
+                    "outcome": "Leave action failed because the user is not a member.",
+                    "status": "Not Left"
+                }
+            },
+            {
+                "name": "Cancel Leave Workspace",
+                "description": "Verify that the user can cancel the leave action in the confirmation dialog.",
+                "input": {
+                    "action": "Cancel"
+                },
+                "expected": {
+                    "outcome": "Leave action canceled.",
+                    "status": "Not Left"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Adding Another Account",
+            "scenario": "User adds another email account to their Notion account.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their primary Notion account.",
+                "User has access to the secondary email account."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User clicks on 'My Account' and selects 'Add Email'.",
+                "User enters the new email address and verifies it through the email link sent.",
+                "User confirms the new email as added to their account."
             ]
-        }
-    
-    
+        },
+        "testcases": [
+            {
+                "name": "Successful Account Addition",
+                "description": "Verify that the user can successfully add another email account to their Notion account.",
+                "input": {
+                    "newEmail": "amimulamim@gmail.com"
+                },
+                "expected": {
+                    "outcome": "New email added to the account successfully.Now all the workspaces related to the accounts are accessible from the Notion account",
+                    "status": "Added"
+                }
+            },
+            {
+                "name": "Invalid Email Format",
+                "description": "Verify that the system prevents adding an email with an invalid format.",
+                "input": {
+                    "newEmail": "invalid-email"
+                },
+                "expected": {
+                    "outcome": "Failed to add new email due to invalid format.",
+                    "status": "Not Added"
+                }
+            },
+            {
+                "name": "Email Already Linked",
+                "description": "Verify that the system prevents adding an email that is already linked to the account.",
+                "input": {
+                    "newEmail": "2005017existing@gmail.com"
+                },
+                "expected": {
+                    "outcome": "No action taken; remains in the same",
+                    "status": "No change"
+                }
+            },
+            {
+                "name": "Verify Email for Account Addition",
+                "description": "Verify that the user must verify the email through the link sent to successfully add the account.",
+                "input": {
+                    "newEmail": "amimulamim@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Email added successfully after verification.",
+                    "status": "Verified and Added"
+                }
+            }
+        ]
+    }
 ]

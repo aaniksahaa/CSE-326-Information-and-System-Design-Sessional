@@ -1,0 +1,223 @@
+[
+    {
+        "usecase": {
+            "name": "Creating a Database",
+            "scenario": "User creates a new database in Notion.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User has permission to create databases in the workspace."
+            ],
+            "steps": [
+                "User navigates to a Notion page and types '/' to access the command menu.",
+                "User selects a database type (e.g., table, board, list).",
+                "User enters the name of the new database.",
+                "User configures properties for the database."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Table Database",
+                "description": "Verify that the user can create a new table database.",
+                "input": {
+                    "databaseType": "Table",
+                    "databaseName": "Project Tasks"
+                },
+                "expected": {
+                    "outcome": "Table database created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Creating a Database Without Name",
+                "description": "Verify that the user cannot create a database without providing a name.",
+                "input": {
+                    "databaseType": "List",
+                    "databaseName": ""
+                },
+                "expected": {
+                    "outcome": "Database creation failed due to missing name.",
+                    "status": "Not Created"
+                }
+            },
+            {
+                "name": "Creating a Database with Existing Name",
+                "description": "Verify that the system handles duplicate database names within the same workspace.",
+                "input": {
+                    "databaseType": "Board",
+                    "databaseName": "Existing Database"
+                },
+                "expected": {
+                    "outcome": "Warning about duplicate name or suffix added.",
+                    "status": "Created with Suffix or Not Created"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Customizing Database Views",
+            "scenario": "User customizes the views of a database to display data in different formats.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has editing permissions for the database."
+            ],
+            "steps": [
+                "User navigates to the database and selects 'Add a view'.",
+                "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                "User customizes the view by adding filters, sorts, and grouping.",
+                "User saves the view for future use."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Kanban Board View",
+                "description": "Verify that the user can create a board view to display tasks by status.",
+                "input": {
+                    "viewType": "Board",
+                    "groupBy": "Status"
+                },
+                "expected": {
+                    "outcome": "Board view created successfully, grouping tasks by 'Status'.",
+                    "status": "View Created"
+                }
+            },
+            {
+                "name": "Applying Filters to Calendar View",
+                "description": "Verify that the user can apply filters to show only events for a specific team in the calendar view.",
+                "input": {
+                    "viewType": "Calendar",
+                    "filter": "Team = 'Marketing'"
+                },
+                "expected": {
+                    "outcome": "Calendar view shows only events for the Marketing team.",
+                    "status": "Filtered"
+                }
+            },
+            {
+                "name": "Sorting Table View by Priority",
+                "description": "Verify that the user can sort tasks by priority in the table view.",
+                "input": {
+                    "viewType": "Table",
+                    "sortBy": "Priority"
+                },
+                "expected": {
+                    "outcome": "Tasks sorted successfully by priority in the table view.",
+                    "status": "Sorted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Database Pages",
+            "scenario": "User manages individual pages within a database, adding, opening, and editing them.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to add and edit database pages."
+            ],
+            "steps": [
+                "User navigates to the database and clicks on 'New' to add a new page.",
+                "User enters the details for the new page and saves it.",
+                "User opens an existing page to edit its content.",
+                "User modifies properties or adds new content to the page."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a New Database Page",
+                "description": "Verify that the user can create a new page within the database.",
+                "input": {
+                    "pageName": "New Task",
+                    "properties": {
+                        "Status": "To-Do",
+                        "Due Date": "2024-10-20"
+                    }
+                },
+                "expected": {
+                    "outcome": "New page created successfully in the database.",
+                    "status": "Page Created"
+                }
+            },
+            {
+                "name": "Editing Existing Page Content",
+                "description": "Verify that the user can edit an existing page's content in the database.",
+                "input": {
+                    "pageName": "Task 1",
+                    "newContent": "Updated task details."
+                },
+                "expected": {
+                    "outcome": "Page content updated successfully.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Deleting a Database Page",
+                "description": "Verify that the user can delete a page from the database.",
+                "input": {
+                    "pageName": "Old Task"
+                },
+                "expected": {
+                    "outcome": "Page deleted successfully from the database.",
+                    "status": "Deleted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Collaborating in a Database",
+            "scenario": "User collaborates with team members in a shared database with specific permissions.",
+            "actors": "User",
+            "preconditions": [
+                "Database is shared with team members.",
+                "User has appropriate permissions for collaboration."
+            ],
+            "steps": [
+                "User shares the database with team members with 'Can edit content' permissions.",
+                "Team members add and edit pages within the database.",
+                "User reviews changes made by team members and provides feedback in comments."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Granting Edit Permissions",
+                "description": "Verify that the user can grant 'Can edit content' permissions to team members.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "permissions": "Can edit content"
+                },
+                "expected": {
+                    "outcome": "Edit permissions granted successfully.",
+                    "status": "Permissions Granted"
+                }
+            },
+            {
+                "name": "Editing Content with Edit Permissions",
+                "description": "Verify that team members with 'Can edit content' permissions can add and edit pages in the database.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "action": "Edit page content"
+                },
+                "expected": {
+                    "outcome": "Team member successfully edited page content.",
+                    "status": "Content Edited"
+                }
+            },
+            {
+                "name": "Restricting Property Editing",
+                "description": "Verify that team members cannot edit properties or views with 'Can edit content' permissions.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "action": "Edit property"
+                },
+                "expected": {
+                    "outcome": "Action blocked due to insufficient permissions.",
+                    "status": "Not Allowed"
+                }
+            }
+        ]
+    }
+]
