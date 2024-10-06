@@ -1,0 +1,307 @@
+[
+    {
+        "usecase": {
+            "name": "Managing Database Properties",
+            "scenario": "User adds, edits, and deletes properties in a database.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the database."
+            ],
+            "steps": [
+                "User navigates to database settings.",
+                "User selects 'New property' to add a property.",
+                "User edits or deletes properties as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding a New Property",
+                "description": "Verify that the user can add a new property with a valid name and type.",
+                "input": {
+                    "action": "Add Property",
+                    "propertyName": "Priority",
+                    "propertyType": "Select"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyAdded": true,
+                        "propertyName": "Priority",
+                        "propertyType": "Select"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Adding a Property with Empty Name",
+                "description": "Verify that the user cannot add a property with an empty name.",
+                "input": {
+                    "action": "Add Property",
+                    "propertyName": "",
+                    "propertyType": "Text"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyAdded": false,
+                        "error": "Property name cannot be empty."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Deleting a Property",
+                "description": "Verify that the user can delete a property.",
+                "input": {
+                    "action": "Delete Property",
+                    "propertyName": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyDeleted": true,
+                        "propertyName": "Priority"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Editing Property Values",
+            "scenario": "User edits values for different property types in the database.",
+            "actors": "User",
+            "preconditions": [
+                "Database has predefined properties."
+            ],
+            "steps": [
+                "User selects a property cell in the database.",
+                "User enters or updates the value for the property.",
+                "User saves the changes."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Editing Text Property",
+                "description": "Verify that the user can enter text into a text property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Text",
+                    "value": "Project description."
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": true,
+                        "propertyType": "Text",
+                        "newValue": "Project description."
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Entering Invalid Number in Number Property",
+                "description": "Verify that the user cannot enter non-numeric values in a number property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Number",
+                    "value": "ABC"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": false,
+                        "propertyType": "Number",
+                        "error": "Invalid input; numbers only."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Clearing a Date Property",
+                "description": "Verify that the user can clear the value in a date property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Date",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": true,
+                        "propertyType": "Date",
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    }
+
+    ,
+
+        {
+            "usecase": {
+                "name": "Handling Invalid and Empty Values for Properties",
+                "scenario": "User enters invalid or empty values for different property types in a database.",
+                "actors": "User",
+                "preconditions": [
+                    "Database has predefined properties for testing different data types."
+                ],
+                "steps": [
+                    "User selects a property cell in the database.",
+                    "User attempts to enter invalid or empty values for each property type.",
+                    "System validates and either accepts or rejects the input."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Entering Invalid Number",
+                    "description": "Verify that the system rejects non-numeric values for a number property.",
+                    "input": {
+                        "propertyType": "Number",
+                        "value": "abc123"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid input; numbers only."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Number Property",
+                    "description": "Verify that the system accepts an empty value for a number property.",
+                    "input": {
+                        "propertyType": "Number",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Email Format",
+                    "description": "Verify that the system rejects an invalid email format.",
+                    "input": {
+                        "propertyType": "Email",
+                        "value": "invalid-email"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid email format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Email Property",
+                    "description": "Verify that the system accepts an empty value for an email property.",
+                    "input": {
+                        "propertyType": "Email",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid URL Format",
+                    "description": "Verify that the system rejects an invalid URL format.",
+                    "input": {
+                        "propertyType": "URL",
+                        "value": "www.invalid-url"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid URL format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty URL Property",
+                    "description": "Verify that the system accepts an empty value for a URL property.",
+                    "input": {
+                        "propertyType": "URL",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Date Format",
+                    "description": "Verify that the system rejects an invalid date format.",
+                    "input": {
+                        "propertyType": "Date",
+                        "value": "32-12-2024"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid date format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Date Property",
+                    "description": "Verify that the system accepts an empty value for a date property.",
+                    "input": {
+                        "propertyType": "Date",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Phone Format",
+                    "description": "Verify that the system rejects an invalid phone number format.",
+                    "input": {
+                        "propertyType": "Phone",
+                        "value": "123-ABCD"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid phone number format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Phone Property",
+                    "description": "Verify that the system accepts an empty value for a phone property.",
+                    "input": {
+                        "propertyType": "Phone",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        }
+    
+    
+]

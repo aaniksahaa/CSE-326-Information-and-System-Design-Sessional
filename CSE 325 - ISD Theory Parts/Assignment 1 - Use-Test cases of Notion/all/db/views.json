@@ -1,0 +1,328 @@
+[
+    {
+        "usecase": {
+            "name": "Managing Data in Table View",
+            "scenario": "User creates, modifies, and deletes rows and columns in a table view.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the table view.",
+                "Table view is already created."
+            ],
+            "steps": [
+                "User navigates to the database table view.",
+                "User adds, edits, or deletes rows and columns as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Rows",
+                "description": "Verify that the user can add a new row to the table with all columns populated.",
+                "input": {
+                    "action": "Add Row",
+                    "columns": ["Task", "Due Date", "Priority"],
+                    "values": ["New Task", "2024-10-10", "High"]
+                },
+                "expected": {
+                    "outcome": {
+                        "rowAdded": true,
+                        "rowValues": ["New Task", "2024-10-10", "High"]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Deleting Columns",
+                "description": "Verify that the user can delete a column and all associated data is removed.",
+                "input": {
+                    "action": "Delete Column",
+                    "columnName": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnDeleted": true,
+                        "columnName": "Priority",
+                        "dataRemoved": true
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Empty Values",
+                "description": "Verify that leaving a cell empty in a required column triggers a validation message.",
+                "input": {
+                    "action": "Edit Cell",
+                    "columnName": "Task",
+                    "newValue": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "validationMessage": "Task cannot be empty."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Organizing Simple Data in List View",
+            "scenario": "User organizes notes or articles using list view with minimal properties.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the list view.",
+                "List view is already created."
+            ],
+            "steps": [
+                "User navigates to the database list view.",
+                "User adds, edits, or deletes list items as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Items",
+                "description": "Verify that the user can add a new item with minimal properties like title and date.",
+                "input": {
+                    "action": "Add Item",
+                    "properties": ["Title", "Date"],
+                    "values": ["New Note", "2024-10-15"]
+                },
+                "expected": {
+                    "outcome": {
+                        "itemAdded": true,
+                        "itemValues": ["New Note", "2024-10-15"]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Date",
+                "description": "Verify that entering an invalid date format shows an error message.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Date",
+                    "value": "15-October-2024"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": false,
+                        "error": "Invalid date format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Editing Item Title",
+                "description": "Verify that the user can successfully edit the title of a list item.",
+                "input": {
+                    "action": "Edit Title",
+                    "newValue": "Updated Note Title"
+                },
+                "expected": {
+                    "outcome": {
+                        "titleUpdated": true,
+                        "newTitle": "Updated Note Title"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Visualizing Workflows in Board View",
+            "scenario": "User creates boards to manage project stages or tasks.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the board view.",
+                "Board view is already created."
+            ],
+            "steps": [
+                "User navigates to the database board view.",
+                "User moves items between columns to represent changes in workflow stages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Moving Items Across Stages",
+                "description": "Verify that the user can drag and drop items between different stages (columns).",
+                "input": {
+                    "action": "Move Item",
+                    "itemName": "Task 1",
+                    "fromColumn": "To Do",
+                    "toColumn": "In Progress"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemMoved": true,
+                        "itemName": "Task 1",
+                        "newColumn": "In Progress"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Stage Name",
+                "description": "Verify that the system rejects a stage name with special characters.",
+                "input": {
+                    "action": "Add Column",
+                    "columnName": "In-Progress#1"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnAdded": false,
+                        "error": "Invalid column name; special characters are not allowed."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Archiving Columns",
+                "description": "Verify that the user can hide or archive columns with completed tasks.",
+                "input": {
+                    "action": "Archive Column",
+                    "columnName": "Completed"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnArchived": true,
+                        "columnName": "Completed"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Events in Calendar View",
+            "scenario": "User schedules and views events on a calendar.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the calendar view.",
+                "Calendar view is already created."
+            ],
+            "steps": [
+                "User navigates to the database calendar view.",
+                "User adds, edits, or deletes events as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Multi-Day Events",
+                "description": "Verify that the user can add events that span multiple days.",
+                "input": {
+                    "action": "Add Event",
+                    "eventTitle": "Project Kickoff",
+                    "startDate": "2024-10-10",
+                    "endDate": "2024-10-12"
+                },
+                "expected": {
+                    "outcome": {
+                        "eventAdded": true,
+                        "eventTitle": "Project Kickoff",
+                        "startDate": "2024-10-10",
+                        "endDate": "2024-10-12"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Date Range",
+                "description": "Verify that entering a start date later than the end date triggers an error.",
+                "input": {
+                    "action": "Add Event",
+                    "eventTitle": "Invalid Event",
+                    "startDate": "2024-10-15",
+                    "endDate": "2024-10-12"
+                },
+                "expected": {
+                    "outcome": {
+                        "eventAdded": false,
+                        "error": "Start date cannot be later than end date."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Changing Calendar Start Day",
+                "description": "Verify that changing the week start day updates the view correctly.",
+                "input": {
+                    "action": "Change Start Day",
+                    "newStartDay": "Monday"
+                },
+                "expected": {
+                    "outcome": {
+                        "startDayChanged": true,
+                        "newStartDay": "Monday"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    
+    {
+        "usecase": {
+            "name": "Assigning Unique Identifiers to Database Items",
+            "scenario": "User assigns unique identifiers to each item for easy reference.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the database.",
+                "Database has a unique ID property set up."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User configures or updates the unique ID format for each new item."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Generating Unique ID",
+                "description": "Verify that each new item in the database is assigned a unique identifier automatically.",
+                "input": {
+                    "action": "Add Item",
+                    "itemTitle": "New Task"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemAdded": true,
+                        "itemTitle": "New Task",
+                        "uniqueIDGenerated": true
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Custom ID Format",
+                "description": "Verify that the user can set a custom format for unique IDs (e.g., prefix or suffix).",
+                "input": {
+                    "action": "Configure Unique ID",
+                    "format": "Task-####"
+                },
+                "expected": {
+                    "outcome": {
+                        "formatApplied": true,
+                        "exampleID": "Task-0001"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Duplicate ID Error",
+                "description": "Verify that trying to manually set a duplicate ID triggers an error.",
+                "input": {
+                    "action": "Set Unique ID",
+                    "itemTitle": "Task 1",
+                    "uniqueID": "ID-001"
+                },
+                "expected": {
+                    "outcome": {
+                        "IDSet": false,
+                        "error": "Duplicate unique ID detected."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    }
+]

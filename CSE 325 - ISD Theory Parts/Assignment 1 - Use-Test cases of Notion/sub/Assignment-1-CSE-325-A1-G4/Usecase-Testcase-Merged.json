@@ -1,0 +1,4054 @@
+[
+    {
+        "usecase": {
+            "name": "Creation of New Workspace",
+            "scenario": "User creates a new workspace from their account.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User does not exceed the maximum number of workspaces allowed."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User selects 'Create or Join Workspace'.",
+                "User enters the workspace name and email domain, if applicable.",
+                "User clicks 'Create' to complete the process."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Workspace Creation",
+                "description": "Verify that the user can successfully create a new workspace with a unique name.",
+                "input": {
+                    "workspaceName": "ISD A1 G-4",
+                    "emailDomain": "ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Workspace created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Duplicate Workspace Name",
+                "description": "Verify that creating a workspace with an existing name does not matter",
+                "input": {
+                    "workspaceName": "Existing Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Exceeding Workspace Limit",
+                "description": "Verify that the user cannot create more workspaces than their plan allows.",
+                "input": {
+                    "workspaceName": "New Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace creation failed due to exceeding workspace limit.",
+                    "status": "Not Created"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Switching Workspaces",
+            "scenario": "User switches between multiple workspaces they are a part of.",
+            "actors": "User",
+            "preconditions": [
+                "User is a member of multiple workspaces.",
+                "User is logged in."
+            ],
+            "steps": [
+                "User clicks on their profile picture in the top-left corner.",
+                "User selects the workspace they want to switch to from the dropdown menu.",
+                "User is redirected to the selected workspace."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Workspace Switch",
+                "description": "Verify that the user can successfully switch to another workspace.",
+                "input": {
+                    "workspaceName": "Development Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace switched successfully.",
+                    "status": "Switched"
+                }
+            },
+            {
+                "name": "Switch to Unavailable Workspace",
+                "description": "Verify that the user cannot switch to a workspace they have left or been removed from.",
+                "input": {
+                    "workspaceName": "Unavailable Workspace"
+                },
+                "expected": {
+                    "outcome": "Workspace switch failed due to unavailable access.",
+                    "status": "Not Switched"
+                }
+            },
+            {
+                "name": "Switch to Same Workspace",
+                "description": "Verify that selecting the current workspace does not reload or cause any issues.",
+                "input": {
+                    "workspaceName": "Current Workspace"
+                },
+                "expected": {
+                    "outcome": "No action taken; remains in the same workspace.",
+                    "status": "No Change"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Joining an Existing Workspace",
+            "scenario": "User joins an existing workspace by invitation or allowed domain.",
+            "actors": "User",
+            "preconditions": [
+                "User has received an invitation or has an email matching the allowed domain.",
+                "User is logged into their Notion account."
+            ],
+            "steps": [
+                "User clicks on the invitation link or logs in with an email matching the allowed domain.",
+                "User accepts the invitation to join the workspace."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Join via Invitation",
+                "description": "Verify that the user can join the workspace successfully using an invitation link.",
+                "input": {
+                    "invitationLink": "valid-invite-link"
+                },
+                "expected": {
+                    "outcome": "Joined workspace successfully.",
+                    "status": "Joined"
+                }
+            },
+            {
+                "name": "Join with Invalid Invitation",
+                "description": "Verify that the user cannot join the workspace using an expired or invalid invitation link.",
+                "input": {
+                    "invitationLink": "invalid-invite-link"
+                },
+                "expected": {
+                    "outcome": "Join failed due to invalid invitation.",
+                    "status": "Not Joined"
+                }
+            },
+            {
+                "name": "Join via Allowed Domain",
+                "description": "Verify that the user can join the workspace using an email with an allowed domain.",
+                "input": {
+                    "email": "2005017@ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Joined workspace successfully using allowed domain.",
+                    "status": "Joined"
+                }
+            },
+            {
+                "name": "Join via Restricted Domain",
+                "description": "Verify that the user cannot join the workspace using an email with a restricted domain.",
+                "input": {
+                    "email": "user@restricteddomain.com"
+                },
+                "expected": {
+                    "outcome": "Join failed due to restricted domain.",
+                    "status": "Not Joined"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Update Workspace Name",
+            "scenario": "User updates the name of current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User enters workspace name"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Name Selection",
+                "description": "Verify that the user can successfully update the workspace name with a valid input.",
+                "input": {
+                    "workspaceName": "New Workspace Name"
+                },
+                "expected": {
+                    "outcome": "Workspace name updated",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Empty Workspace Name",
+                "description": "Verify that the user cannot update the workspace name with an empty input.",
+                "input": {
+                    "workspaceName": ""
+                },
+                "expected": {
+                    "outcome": "Workspace name not updated",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Upload Workspace Icon",
+            "scenario": "User updates the icon of current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User selects workspace icon"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace Icon Selection",
+                "description": "Verify that the user can successfully update the workspace icon with a valid file.",
+                "input": {
+                    "workspaceIcon": "icon.jpg",
+                    "fileSize": "1MB",
+                    "mimeType": "image/jpeg"
+                },
+                "expected": {
+                    "outcome": "Workspace icon updated",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Empty Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon without selecting a file.",
+                "input": {
+                    "workspaceIcon": "",
+                    "fileSize": "0MB",
+                    "mimeType": ""
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Invalid Workspace Icon File Type",
+                "description": "Verify that the user cannot update the workspace icon with an invalid file type.",
+                "input": {
+                    "workspaceIcon": "icon.exe",
+                    "fileSize": "1MB",
+                    "mimeType": "application/octet-stream"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Corrupted Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon with a valid file type but corrupted data.",
+                "input": {
+                    "workspaceIcon": "icon.png",
+                    "fileSize": "1MB",
+                    "mimeType": "text/plain"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Large Workspace Icon",
+                "description": "Verify that the user cannot update the workspace icon with a file that exceeds the maximum file size.",
+                "input": {
+                    "workspaceIcon": "icon.jpg",
+                    "fileSize": "10MB",
+                    "mimeType": "image/jpeg"
+                },
+                "expected": {
+                    "outcome": "Workspace icon not updated",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Delete Workspace",
+            "scenario": "User deletes the current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User types 'Workspace Name' confirms deletion"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Correct Workspace Name",
+                "description": "Verify that the user can successfully delete the workspace with the correct workspace name.",
+                "input": {
+                    "workspaceName": "Workspace Name"
+                },
+                "expected": {
+                    "outcome": "Workspace deleted",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Incorrect Workspace Name",
+                "description": "Verify that the user cannot delete the workspace with an incorrect workspace name.",
+                "input": {
+                    "workspaceName": "Incorrect Name"
+                },
+                "expected": {
+                    "outcome": "Workspace not deleted",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Leaving a Workspace",
+            "scenario": "User leaves a workspace they are a member of.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User is a member of the workspace."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User clicks on the 'Leave Workspace' button.",
+                "User confirms the action in the dialog box."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Workspace Leave",
+                "description": "Verify that the user can successfully leave a workspace they are a member of.",
+                "input": {
+                    "workspaceName": "Project Workspace"
+                },
+                "expected": {
+                    "outcome": "User left the workspace successfully.",
+                    "status": "Left"
+                }
+            },
+            {
+                "name": "Leave Non-Member Workspace",
+                "description": "Verify that the user cannot leave a workspace they are not a member of.",
+                "input": {
+                    "workspaceName": "Non-Member Workspace"
+                },
+                "expected": {
+                    "outcome": "Leave action failed because the user is not a member.",
+                    "status": "Not Left"
+                }
+            },
+            {
+                "name": "Cancel Leave Workspace",
+                "description": "Verify that the user can cancel the leave action in the confirmation dialog.",
+                "input": {
+                    "action": "Cancel"
+                },
+                "expected": {
+                    "outcome": "Leave action canceled.",
+                    "status": "Not Left"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Adding Another Account",
+            "scenario": "User adds another email account to their Notion account.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their primary Notion account.",
+                "User has access to the secondary email account."
+            ],
+            "steps": [
+                "User navigates to 'Settings & Members' in the sidebar.",
+                "User clicks on 'My Account' and selects 'Add Email'.",
+                "User enters the new email address and verifies it through the email link sent.",
+                "User confirms the new email as added to their account."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Account Addition",
+                "description": "Verify that the user can successfully add another email account to their Notion account.",
+                "input": {
+                    "newEmail": "amimulamim@gmail.com"
+                },
+                "expected": {
+                    "outcome": "New email added to the account successfully.Now all the workspaces related to the accounts are accessible from the Notion account",
+                    "status": "Added"
+                }
+            },
+            {
+                "name": "Invalid Email Format",
+                "description": "Verify that the system prevents adding an email with an invalid format.",
+                "input": {
+                    "newEmail": "invalid-email"
+                },
+                "expected": {
+                    "outcome": "Failed to add new email due to invalid format.",
+                    "status": "Not Added"
+                }
+            },
+            {
+                "name": "Email Already Linked",
+                "description": "Verify that the system prevents adding an email that is already linked to the account.",
+                "input": {
+                    "newEmail": "2005017existing@gmail.com"
+                },
+                "expected": {
+                    "outcome": "No action taken; remains in the same",
+                    "status": "No change"
+                }
+            },
+            {
+                "name": "Verify Email for Account Addition",
+                "description": "Verify that the user must verify the email through the link sent to successfully add the account.",
+                "input": {
+                    "newEmail": "amimulamim@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Email added successfully after verification.",
+                    "status": "Verified and Added"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Import Workspace",
+            "scenario": "User imports entire workspace data from a file or cloud storage",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User uploads the file to be imported",
+                "Alternatively, user selects a cloud storage"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Workspace File",
+                "description": "Verify that the user can successfully import the workspace with a valid file.",
+                "input": {
+                    "workspaceFile": "workspace.csv"
+                },
+                "expected": {
+                    "outcome": "Workspace imported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Invalid Workspace File",
+                "description": "Verify that the user cannot import the workspace with an invalid file.",
+                "input": {
+                    "workspaceFile": "workspace.mkv"
+                },
+                "expected": {
+                    "outcome": "Workspace not imported",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Valid Workspace Cloud Storage",
+                "description": "Verify that the user can successfully import the workspace from a valid cloud storage.",
+                "input": {
+                    "workspaceCloud": "Google Drive"
+                },
+                "expected": {
+                    "outcome": "Workspace imported",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Invalid Workspace Cloud Storage",
+                "description": "Verify that the user cannot import the workspace from an invalid cloud storage.",
+                "input": {
+                    "workspaceCloud": "Moodle"
+                },
+                "expected": {
+                    "outcome": "Workspace not imported",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add Member to Workspace",
+            "scenario": "User adds a member to the current workspace",
+            "actors": "User",
+            "preconditions": "User is logged in",
+            "steps": [
+                "User searches the email of the member to be added",
+                "User selects the person to be added or alternatively sends an invitation email"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Invalid Email",
+                "description": "Verify that the user cannot send an invitation to a member with an invalid email.",
+                "input": {
+                    "email": "inval$@#idemail@aasda.23"
+                },
+                "expected": {
+                    "outcome": "Invitation not sent",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Person Already in Workspace",
+                "description": "Verify that the user cannot add a person to the workspace who is already a member.",
+                "input": {
+                    "email": "alreadyadded@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Person not added",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Person Found on Search",
+                "description": "Verify that the user can successfully add a person to the workspace.",
+                "input": {
+                    "email": "validemail@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Person added",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Person not Found on Search",
+                "description": "Verify that the user can successfully send an invitation to a person to join the workspace.",
+                "input": {
+                    "email": "validemail@gmail.com"
+                },
+                "expected": {
+                    "outcome": "Invitation sent",
+                    "status": "Approved"
+                }
+            },
+            {
+                "name": "Add Valid Member with Plus Subscription",
+                "description": "Verify that the user can successfully add a member with the 'Member' role when the workspace has a Plus subscription.",
+                "input": {
+                    "email": "2005017@ugrad.cse.buet.ac.bd",
+                    "role": "Member"
+                },
+                "expected": {
+                    "outcome": "Invitation sent successfully with 'Member' role assigned.",
+                    "status": "Invited"
+                }
+            },
+            {
+                "name": "Add Member Without Plus Subscription",
+                "description": "Verify that when the user does not have a Plus subscription, all new members are assigned the 'Owner' role.",
+                "input": {
+                    "email": "2005017@ugrad.cse.buet.ac.bd",
+                    "role": "Member"
+                },
+                "expected": {
+                    "outcome": "Role selection defaults to 'Owner' as 'Member' role is not available without Plus subscription.",
+                    "status": "Assigned Owner Role"
+                }
+            },
+            {
+                "name": "Add Member with Invalid Email",
+                "description": "Verify that the system handles invalid email addresses during member addition.",
+                "input": {
+                    "email": "invalid-email",
+                    "role": "Owner"
+                },
+                "expected": {
+                    "outcome": "Failed to send invitation due to invalid email format.",
+                    "status": "Not Invited"
+                }
+            },
+            {
+                "name": "Assign Workspace Owner Role",
+                "description": "Verify that the user can assign the 'Workspace Owner' role to a new member regardless of subscription.",
+                "input": {
+                    "email": "amimul.ehsan2001@gmail.com",
+                    "role": "Workspace Owner"
+                },
+                "expected": {
+                    "outcome": "Member added with 'Workspace Owner' role.",
+                    "status": "Role Assigned"
+                }
+            },
+            {
+                "name": "Invite Using Restricted Domain",
+                "description": "Verify that the system prevents adding members with email addresses from restricted domains.",
+                "input": {
+                    "email": "user@restricted.com",
+                    "role": "Member"
+                },
+                "expected": {
+                    "outcome": "Failed to send invitation due to restricted domain.",
+                    "status": "Not Invited"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Allowed Email Domains",
+            "scenario": "User sets or updates allowed email domains for the workspace.",
+            "actors": "User",
+            "preconditions": "User is a workspace owner with permissions to modify settings.",
+            "steps": [
+                "User navigates to 'Settings' under the workspace menu.",
+                "User scrolls to 'Allowed email domains'.",
+                "User enters the domain name to be allowed (e.g., 'company.com','ugrad.cse.buet.ac.bd').",
+                "User clicks 'Update' to save changes."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Valid Allowed Domain",
+                "description": "Verify that the user can add a valid email domain to the allowed list.",
+                "input": {
+                    "allowedDomain": "company.com"
+                },
+                "expected": {
+                    "outcome": "Domain added successfully to the allowed list.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Adding Invalid Allowed Domain",
+                "description": "Verify that the system handles invalid domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "invalid-domain"
+                },
+                "expected": {
+                    "outcome": "Field not shown to be updated",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Adding Public Domain",
+                "description": "Verify that the system handles public domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "gmail.com"
+                },
+                "expected": {
+                    "outcome": "Sorry ,this domain not allowed.",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Adding Educational Domain",
+                "description": "Verify that the system handles public domain inputs correctly.",
+                "input": {
+                    "allowedDomain": "ugrad.cse.buet.ac.bd"
+                },
+                "expected": {
+                    "outcome": "Sorry ,educational domain not allowed.",
+                    "status": "Not Updated"
+                }
+            },
+            {
+                "name": "Removal Allowed Domain",
+                "description": "Verify that the user can remove a previously added domain from the allowed list.",
+                "input": {
+                    "allowedDomain": "company.com"
+                },
+                "expected": {
+                    "outcome": "Domain removed successfully from the allowed list.",
+                    "status": "Updated"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Export Workspace Content",
+            "scenario": "User exports all workspace content for backup, sharing, or legal purposes.",
+            "actors": "User",
+            "preconditions": [
+                "User is a workspace owner with permissions to export content.",
+                "User has a Business or Enterprise plan for PDF export."
+            ],
+            "steps": [
+                "User navigates to 'Settings' under the workspace menu.",
+                "User clicks on 'Export all workspace content'.",
+                "User selects export options such as format (Markdown, HTML, CSV, PDF) and content inclusion.",
+                "User clicks 'Export' to download the content."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Export as Markdown & CSV",
+                "description": "Verify that the user can successfully export all workspace content in Markdown & CSV format.",
+                "input": {
+                    "exportFormat": "Markdown & CSV",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "Workspace content exported successfully.",
+                    "status": "Exported"
+                }
+            },
+            {
+                "name": "Valid Export as HTML",
+                "description": "Verify that the user can successfully export all workspace content in HTML format.",
+                "input": {
+                    "exportFormat": "HTML",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "Workspace content exported successfully in HTML format.",
+                    "status": "Exported"
+                }
+            },
+            {
+                "name": "Valid Export as PDF with Enterprise Plan",
+                "description": "Verify that the user can export workspace content as PDF when subscribed to an Enterprise plan.",
+                "input": {
+                    "exportFormat": "PDF",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "Workspace content exported successfully in PDF format.",
+                    "status": "Exported"
+                }
+            },
+            {
+                "name": "PDF Export without Enterprise Plan",
+                "description": "Verify that PDF export is not available without an Enterprise plan.",
+                "input": {
+                    "exportFormat": "PDF",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "PDF export failed due to lack of Enterprise plan.",
+                    "status": "Not Exported"
+                }
+            },
+            {
+                "name": "Export with Insufficient Permissions",
+                "description": "Verify that members without export permissions cannot export workspace content.",
+                "input": {
+                    "exportFormat": "Markdown & CSV",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "Export failed due to insufficient permissions.",
+                    "status": "Not Exported"
+                }
+            },
+            {
+                "name": "Exclude Private Pages from Export",
+                "description": "Verify that private pages of other users are not included in the export.",
+                "input": {
+                    "exportFormat": "HTML",
+                    "includeDatabases": "All",
+                    "includeContent": "Everything"
+                },
+                "expected": {
+                    "outcome": "Workspace content exported successfully, excluding private pages.",
+                    "status": "Exported"
+                }
+            },
+            {
+                "name": "Incorrect Export Format",
+                "description": "Verify that the user cannot export the workspace with incorrect workspace export format.",
+                "input": {
+                    "exportFormat": "mp3"
+                },
+                "expected": {
+                    "outcome": "Workspace not exported",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Rich Text Formatting",
+            "scenario": "Users format their text with rich options adding links.",
+            "actors": "User",
+            "preconditions": "The text block exists in the document.",
+            "steps": [
+                "User selects the text block.",
+                "User applies the formatting options",
+                "User checks the formatted result."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Text Hyperlinking",
+                "description": "Verify that a user can add a hyperlink to selected text.",
+                "input": {
+                    "text": "Click here",
+                    "link": "http://example.com"
+                },
+                "expected": {
+                    "outcome": "Hyperlink added to text.",
+                    "status": "Link Working"
+                }
+            },
+            {
+                "name": "Valid Markdown Syntax",
+                "description": "Verify that correct markdown content is rendered successfully.",
+                "input": {
+                    "markdown": "**Hello World**"
+                },
+                "expected": {
+                    "outcome": "Formatting successfully applied.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Markdown Syntax",
+                "description": "Verify that incorrect markdown results in failure to apply formatting.",
+                "input": {
+                    "markdown": "*incorrect_bold"
+                },
+                "expected": {
+                    "outcome": "Formatting not applied due to incorrect markdown syntax.",
+                    "status": "Error"
+                }
+            },
+            {
+                "name": "Invalid Text Hyperlinking",
+                "description": "Verify that an invalid link is not added to a content text.",
+                "input": {
+                    "text": "Click here",
+                    "link": "invalid.com"
+                },
+                "expected": {
+                    "outcome": "Hyperlink not added to text.",
+                    "status": "Link Discarded"
+                }
+            },
+            {
+                "name": "Valid font change",
+                "description": "Verify that a user can select a valid font of selected text.",
+                "input": {
+                    "text": "Sample text",
+                    "fontStyle": "Sans-serif"
+                },
+                "expected": {
+                    "outcome": "Sans-Serif font applied",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Valid Text Coloring",
+                "description": "Verify that a user can apply a color to the text.",
+                "input": {
+                    "text": "Sample text",
+                    "fontColor": "Red"
+                },
+                "expected": {
+                    "outcome": "Text appears in the chosen color.",
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Organize Content into Columns",
+            "scenario": "A user arranges content side-by-side by creating multiple columns on a page.",
+            "actors": "User",
+            "preconditions": "A Notion page with content exists.",
+            "steps": [
+                "User drags and drops blocks into columns.",
+                "Content is organized into multiple columns."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Create Two Columns",
+                "description": "Verify that a user can create two columns by dragging and dropping blocks.",
+                "input": {
+                    "blocks": [
+                        "Text block 1",
+                        "Text block 2"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Two columns created successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Remove Columns",
+                "description": "Verify that a user can remove a column by dragging the content back.",
+                "input": {
+                    "blocks": [
+                        "Text block 1",
+                        "Text block 2"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Columns removed successfully.",
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add Headings for Structure",
+            "scenario": "The user adds headings to structure the content on a Notion page.",
+            "actors": "User",
+            "preconditions": "A Notion page with content exists.",
+            "steps": [
+                "User adds H1, H2, and H3 headings for different sections.",
+                "Content is structured with headings."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Heading Creation",
+                "description": "Verify that a user can add an heading to the page.",
+                "input": {
+                    "headingText": "Main Title",
+                    "headingLevel": "H1"
+                },
+                "expected": {
+                    "outcome": "H1 heading added successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Header Creation in Incorrect Block",
+                "description": "Verify that trying to add a header inside unsupported blocks (e.g., code blocks) fails.",
+                "input": {
+                    "blockType": "code",
+                    "header": "H1"
+                },
+                "expected": {
+                    "outcome": "Header not applied.",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add Icons and Cover Art",
+            "scenario": "A user personalizes a page by adding icons and cover images.",
+            "actors": "User",
+            "preconditions": "A Notion page exists.",
+            "steps": [
+                "User adds or changes the page icon.",
+                "User adds or changes the cover image."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Icon Selection",
+                "description": "Verify that a user can successfully add an icon to a page.",
+                "input": {
+                    "icon": "emo.jpg"
+                },
+                "expected": {
+                    "outcome": "Icon is added to the page.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Valid Cover Image",
+                "description": "Verify that a user can successfully change the cover image on a page.",
+                "input": {
+                    "coverImage": "mycover.png"
+                },
+                "expected": {
+                    "outcome": "Cover image is updated.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Cover Image type",
+                "description": "Verify that an image change is rejected if the image type is wrong.",
+                "input": {
+                    "coverImage": "mycover.pdf"
+                },
+                "expected": {
+                    "outcome": "Cover image is not updated.",
+                    "status": "Discarded"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add and Manage Images in Content",
+            "scenario": "A user uploads images, arranges them on a page, and resizes them as needed.",
+            "actors": "User",
+            "preconditions": "A Notion page is open and ready for editing.",
+            "steps": [
+                "User uploads an image to the page.",
+                "User arranges and resizes the image.",
+                "User adds captions and alt text for the image."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Image Upload",
+                "description": "Verify that a user can successfully upload an image to a page.",
+                "input": {
+                    "imageFile": "sample.jpg"
+                },
+                "expected": {
+                    "outcome": "Image uploaded successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Valid Image Resize",
+                "description": "Verify that a user can resize an uploaded image to a reasonable percentage.",
+                "input": {
+                    "imageFile": "sample.jpg",
+                    "resizeDimensions": "50%"
+                },
+                "expected": {
+                    "outcome": "Image resized successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Too Large Resize Percentage",
+                "description": "Verify that an image resize is rejected when the entered percentage amount is too large.",
+                "input": {
+                    "imageFile": "sample.jpg",
+                    "resizeDimensions": "5000%"
+                },
+                "expected": {
+                    "outcome": "Image not resized.",
+                    "status": "Unchanged"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add and Embed Files",
+            "scenario": "A user uploads or embeds files like PDFs or documents into a Notion page.",
+            "actors": "User",
+            "preconditions": "A Notion page is ready for file uploads.",
+            "steps": [
+                "User uploads a PDF file to the page.",
+                "User embeds a file link from an external source.",
+                "User arranges the file block on the page."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid PDF Upload",
+                "description": "Verify that a user can upload a PDF file to the page.",
+                "input": {
+                    "file": "document.pdf",
+                    "fileSize": "1 MB"
+                },
+                "expected": {
+                    "outcome": "PDF file uploaded successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Too Large Filesize",
+                "description": "Verify that a file that is too large is discarded.",
+                "input": {
+                    "file": "document.pdf",
+                    "fileSize": "1 GB"
+                },
+                "expected": {
+                    "outcome": "File rejected.",
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Valid External File Embed",
+                "description": "Verify that a user can embed a file link from an external URL.",
+                "input": {
+                    "fileLink": "https://example.com/document.pdf"
+                },
+                "expected": {
+                    "outcome": "File embedded successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid External File Embed Link",
+                "description": "Verify that a file embed is rejected when the link is invalid.",
+                "input": {
+                    "fileLink": "invalidlink.com/document.pdf"
+                },
+                "expected": {
+                    "outcome": "File not embedded.",
+                    "status": "Discarded"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Embed and Manage Media",
+            "scenario": "A user embeds videos and audio files into a Notion page.",
+            "actors": "User",
+            "preconditions": "A Notion page is open for editing.",
+            "steps": [
+                "User embeds a video from a streaming service.",
+                "User uploads an audio file.",
+                "User resizes and aligns the media blocks."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Embed Video",
+                "description": "Verify that a user can embed a video from a streaming platform.",
+                "input": {
+                    "videoURL": "https://www.youtube.com/watch?v=example"
+                },
+                "expected": {
+                    "outcome": "Video embedded successfully.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Upload Audio File",
+                "description": "Verify that a user can upload an audio file and play it in Notion.",
+                "input": {
+                    "audioFile": "audio.mp3"
+                },
+                "expected": {
+                    "outcome": "Audio file uploaded and playable.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Unsupported Media Format",
+                "description": "Verify that unsupported audio or video formats fail to play.",
+                "input": {
+                    "mediaType": "video",
+                    "format": "unsupportedFormat"
+                },
+                "expected": {
+                    "outcome": "Playback fails, with a message indicating unsupported format.",
+                    "status": "Error"
+                }
+            },
+            {
+                "name": "Exceeds File Size Limit",
+                "description": "Verify that uploading a file that exceeds the size limit fails.",
+                "input": {
+                    "mediaType": "image",
+                    "fileSize": "100GB"
+                },
+                "expected": {
+                    "outcome": "Upload fails with a message about exceeding the file size limit.",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Link to Notion Page",
+            "scenario": "A user links one Notion page to another within a paragraph or as a block.",
+            "actors": "User",
+            "preconditions": "Both Notion pages exist and are accessible.",
+            "steps": [
+                "User types '@', '[[' or '+' followed by the page name.",
+                "User selects the page from the dropdown.",
+                "Link is added in the desired format."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Page Linking in Paragraph",
+                "description": "Verify that a user can link another Notion page inline within a paragraph.",
+                "input": {
+                    "linkCommand": "@",
+                    "pageName": "Project Overview"
+                },
+                "expected": {
+                    "outcome": "Page linked successfully.",
+                    "status": "Link visible in paragraph."
+                }
+            },
+            {
+                "name": "Valid Page linking as Block",
+                "description": "Verify that a user can add a Notion page link as a block.",
+                "input": {
+                    "linkCommand": "/link",
+                    "pageName": "Meeting Notes"
+                },
+                "expected": {
+                    "outcome": "Page link block created successfully.",
+                    "status": "Link block visible."
+                }
+            },
+            {
+                "name": "Broken Link Creation",
+                "description": "Verify that trying to create a link to a deleted or non-existent page results in an error.",
+                "input": {
+                    "linkDestination": "DeletedPage"
+                },
+                "expected": {
+                    "outcome": "Link creation fails with an error about the destination page not existing.",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Link to a Web Page",
+            "scenario": "A user pastes a URL into Notion and formats it as a mention for easier readability.",
+            "actors": "User",
+            "preconditions": "A web page link is copied.",
+            "steps": [
+                "User pastes the URL into a Notion page.",
+                "User selects 'Paste as mention' to format the link."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Web Link Embedding",
+                "description": "Verify that a user can embed a web link and format it as a mention.",
+                "input": {
+                    "webURL": "https://example.com"
+                },
+                "expected": {
+                    "outcome": "Web link embedded as a mention and preview generated.",
+                    "status": "Link mention formatted."
+                }
+            },
+            {
+                "name": "Broken Web Link",
+                "description": "Verify that a broken link is detected by the system and rejected.",
+                "input": {
+                    "webURL": "invalid.com"
+                },
+                "expected": {
+                    "outcome": "Web link not embedded.",
+                    "status": "Embed failed."
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Transfer Content to Another Account",
+            "scenario": "A user transfers ownership of content (pages, databases) from one Notion account to another.",
+            "actors": "User, New Account Owner",
+            "preconditions": "Both Notion accounts exist.",
+            "steps": [
+                "User shares the page with the new account.",
+                "User grants ownership permissions to the new account."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Ownership Transfer",
+                "description": "Verify that a user can transfer ownership of a page to another account.",
+                "input": {
+                    "pageName": "Project Plan",
+                    "newOwner": "userB@example.com"
+                },
+                "expected": {
+                    "outcome": "Ownership successfully transferred.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Transfer Between Incompatible Accounts",
+                "description": "Verify that transferring content between a free plan and a paid account fails if file size limits are exceeded.",
+                "input": {
+                    "accountTypeSource": "Paid",
+                    "accountTypeDestination": "Free",
+                    "fileSize": "10GB"
+                },
+                "expected": {
+                    "outcome": "Transfer fails with a file size limit error.",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Duplicate and Delete Content",
+            "scenario": "A user duplicates or deletes content on a Notion page.",
+            "actors": "User",
+            "preconditions": "A Notion page exists with content.",
+            "steps": [
+                "User selects a block of content.",
+                "User chooses either 'Duplicate' or 'Delete' from the menu."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Duplicate Block",
+                "description": "Verify that a user can duplicate a block of content.",
+                "input": {
+                    "blockContent": "Meeting Notes"
+                },
+                "expected": {
+                    "outcome": "Block successfully duplicated.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Delete Page",
+                "description": "Verify that a user can delete an entire page.",
+                "input": {
+                    "pageName": "Old Notes"
+                },
+                "expected": {
+                    "outcome": "Page successfully deleted.",
+                    "status": "Moved to Trash"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Restore Deleted Content",
+            "scenario": "A user restores deleted content from the trash within 30 days.",
+            "actors": "User",
+            "preconditions": "The content is in the trash and within the restoration window.",
+            "steps": [
+                "User navigates to the trash.",
+                "User selects the deleted page to restore."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Restore Deleted Page",
+                "description": "Verify that a user can restore a deleted page from the trash.",
+                "input": {
+                    "pageName": "Archived Project"
+                },
+                "expected": {
+                    "outcome": "Page successfully restored.",
+                    "status": "Restored"
+                }
+            },
+            {
+                "name": "Restore Deleted Page After Timeout",
+                "description": "Verify that restoring a deleted page fails after the allowed restoration time has passed.",
+                "input": {
+                    "deletedTime": "31Days"
+                },
+                "expected": {
+                    "outcome": "Restore fails due to exceeded restoration period.",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Sync Content Across Pages",
+            "scenario": "A user syncs content across multiple Notion pages.",
+            "actors": "User",
+            "preconditions": "Pages must exist, and user must have edit permissions.",
+            "steps": [
+                "User copies the content from a page.",
+                "User pastes it on a different page with the 'Paste and sync' option.",
+                "Content is now synced across pages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Sync Content Successfully",
+                "description": "Verify that the user can sync content across two pages.",
+                "input": {
+                    "page1": "Project Overview",
+                    "page2": "Meeting Notes"
+                },
+                "expected": {
+                    "outcome": "Content successfully synced.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Sync Content Failure - No Permissions",
+                "description": "Verify that a user cannot sync content to a page where they don't have permission.",
+                "input": {
+                    "page1": "Team Wiki",
+                    "page2": "Private Notes"
+                },
+                "expected": {
+                    "outcome": "Sync failed due to insufficient permissions.",
+                    "status": "Failure"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Unsync Content",
+            "scenario": "A user unsyncs specific content across pages.",
+            "actors": "User",
+            "preconditions": "Synced blocks exist across multiple pages.",
+            "steps": [
+                "User selects the synced block.",
+                "User chooses the 'Unsync' option to remove the sync."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Unsync Specific Block",
+                "description": "Verify that a user can unsync a specific copy of the block.",
+                "input": {
+                    "block": "Task List"
+                },
+                "expected": {
+                    "outcome": "Block unsynced from other copies.",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Unsync Failure - Not Original Block",
+                "description": "Verify that unsyncing fails when attempting to unsync a block that is not the original.",
+                "input": {
+                    "block": "Meeting Agenda"
+                },
+                "expected": {
+                    "outcome": "Unable to unsync non-original block.",
+                    "status": "Failure"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Create and Edit Code Blocks",
+            "scenario": "User creates and edits code blocks within Notion for documentation or sharing code snippets.",
+            "actors": "User",
+            "preconditions": "User is logged into Notion and has access to a workspace or page.",
+            "steps": [
+                "User navigates to a Notion page and selects the option to add a new block.",
+                "User selects the code block option from the available block types.",
+                "User types or pastes code into the code block.",
+                "User modifies the code block by selecting the language, formatting, or editing the code."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Code Block Creation",
+                "description": "Verify that a user can successfully create a code block and input code.",
+                "input": {
+                    "blockType": "Code Block",
+                    "code": "print('Hello World')"
+                },
+                "expected": {
+                    "outcome": "Code block created successfully",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Valid Language Selection",
+                "description": "Verify that a user can select a programming language for a code block.",
+                "input": {
+                    "code": "def add(a, b): return a + b",
+                    "language": "Python"
+                },
+                "expected": {
+                    "outcome": "Codeblock rendered with Python syntax highlighting",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Language Selection",
+                "description": "Verify that a user can select a programming language for a code block.",
+                "input": {
+                    "code": "def add(a, b): return a + b",
+                    "language": "Java"
+                },
+                "expected": {
+                    "outcome": "Codeblock rendered with improper syntax highlighting",
+                    "status": "Improperly Highlighted"
+                }
+            },
+            {
+                "name": "Empty Code Block",
+                "description": "Verify that the system handles an empty code block without any code input.",
+                "input": {
+                    "blockType": "Code Block",
+                    "code": ""
+                },
+                "expected": {
+                    "outcome": "Code block creation failed",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Valid Code Block Editing",
+                "description": "Verify that a user can successfully edit an existing code block.",
+                "input": {
+                    "blockID": "123",
+                    "newCode": "print('Updated Code')"
+                },
+                "expected": {
+                    "outcome": "Code block updated successfully",
+                    "status": "Edited"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Create and Display Math Equations in Notion",
+            "scenario": "A user creates and formats math equations in Notion using LaTeX syntax.",
+            "actors": "User",
+            "preconditions": "The user must have access to a Notion page.",
+            "steps": [
+                "User types an equation using the inline math command `$$` or the block equation command `/math`.",
+                "The system processes the LaTeX syntax.",
+                "The system displays the equation in the correct format."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Inline Equation",
+                "description": "Verify that a valid inline math equation is rendered correctly.",
+                "input": {
+                    "equation": "$$a^2 + b^2 = c^2$$"
+                },
+                "expected": {
+                    "outcome": "Equation rendered correctly",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Inline Equation",
+                "description": "Verify that the system handles improper LaTeX syntax in inline equations.",
+                "input": {
+                    "equation": "$$a^2 + b^$$"
+                },
+                "expected": {
+                    "outcome": "Equation rendering failed due to improper syntax",
+                    "status": "Error"
+                }
+            },
+            {
+                "name": "Valid Block Equation",
+                "description": "Verify that a block equation is correctly rendered in Notion.",
+                "input": {
+                    "equation": "/math \\sqrt{9}"
+                },
+                "expected": {
+                    "outcome": "Block equation rendered correctly",
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Block Equation",
+                "description": "Verify that the system handles incorrect LaTeX syntax in block equations.",
+                "input": {
+                    "equation": "/math \\squr{9}"
+                },
+                "expected": {
+                    "outcome": "Block equation rendering failed due to unrecognized command",
+                    "status": "Error"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Creating a Database",
+            "scenario": "User creates a new database in Notion.",
+            "actors": "User",
+            "preconditions": [
+                "User is logged into their Notion account.",
+                "User has permission to create databases in the workspace."
+            ],
+            "steps": [
+                "User navigates to a Notion page and types '/' to access the command menu.",
+                "User selects a database type (e.g., table, board, list).",
+                "User enters the name of the new database.",
+                "User configures properties for the database."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Table Database",
+                "description": "Verify that the user can create a new table database.",
+                "input": {
+                    "databaseType": "Table",
+                    "databaseName": "Project Tasks"
+                },
+                "expected": {
+                    "outcome": "Table database created successfully.",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Creating a Database Without Name",
+                "description": "Verify that the user cannot create a database without providing a name.",
+                "input": {
+                    "databaseType": "List",
+                    "databaseName": ""
+                },
+                "expected": {
+                    "outcome": "Database creation failed due to missing name.",
+                    "status": "Not Created"
+                }
+            },
+            {
+                "name": "Creating a Database with Existing Name",
+                "description": "Verify that the system handles duplicate database names within the same workspace.",
+                "input": {
+                    "databaseType": "Board",
+                    "databaseName": "Existing Database"
+                },
+                "expected": {
+                    "outcome": "Warning about duplicate name or suffix added.",
+                    "status": "Created with Suffix or Not Created"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Customizing Database Views",
+            "scenario": "User customizes the views of a database to display data in different formats.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has editing permissions for the database."
+            ],
+            "steps": [
+                "User navigates to the database and selects 'Add a view'.",
+                "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                "User customizes the view by adding filters, sorts, and grouping.",
+                "User saves the view for future use."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Kanban Board View",
+                "description": "Verify that the user can create a board view to display tasks by status.",
+                "input": {
+                    "viewType": "Board",
+                    "groupBy": "Status"
+                },
+                "expected": {
+                    "outcome": "Board view created successfully, grouping tasks by 'Status'.",
+                    "status": "View Created"
+                }
+            },
+            {
+                "name": "Applying Filters to Calendar View",
+                "description": "Verify that the user can apply filters to show only events for a specific team in the calendar view.",
+                "input": {
+                    "viewType": "Calendar",
+                    "filter": "Team = 'Marketing'"
+                },
+                "expected": {
+                    "outcome": "Calendar view shows only events for the Marketing team.",
+                    "status": "Filtered"
+                }
+            },
+            {
+                "name": "Sorting Table View by Priority",
+                "description": "Verify that the user can sort tasks by priority in the table view.",
+                "input": {
+                    "viewType": "Table",
+                    "sortBy": "Priority"
+                },
+                "expected": {
+                    "outcome": "Tasks sorted successfully by priority in the table view.",
+                    "status": "Sorted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Database Pages",
+            "scenario": "User manages individual pages within a database, adding, opening, and editing them.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to add and edit database pages."
+            ],
+            "steps": [
+                "User navigates to the database and clicks on 'New' to add a new page.",
+                "User enters the details for the new page and saves it.",
+                "User opens an existing page to edit its content.",
+                "User modifies properties or adds new content to the page."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a New Database Page",
+                "description": "Verify that the user can create a new page within the database.",
+                "input": {
+                    "pageName": "New Task",
+                    "properties": {
+                        "Status": "To-Do",
+                        "Due Date": "2024-10-20"
+                    }
+                },
+                "expected": {
+                    "outcome": "New page created successfully in the database.",
+                    "status": "Page Created"
+                }
+            },
+            {
+                "name": "Editing Existing Page Content",
+                "description": "Verify that the user can edit an existing page's content in the database.",
+                "input": {
+                    "pageName": "Task 1",
+                    "newContent": "Updated task details."
+                },
+                "expected": {
+                    "outcome": "Page content updated successfully.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Deleting a Database Page",
+                "description": "Verify that the user can delete a page from the database.",
+                "input": {
+                    "pageName": "Old Task"
+                },
+                "expected": {
+                    "outcome": "Page deleted successfully from the database.",
+                    "status": "Deleted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Collaborating in a Database",
+            "scenario": "User collaborates with team members in a shared database with specific permissions.",
+            "actors": "User",
+            "preconditions": [
+                "Database is shared with team members.",
+                "User has appropriate permissions for collaboration."
+            ],
+            "steps": [
+                "User shares the database with team members with 'Can edit content' permissions.",
+                "Team members add and edit pages within the database.",
+                "User reviews changes made by team members and provides feedback in comments."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Granting Edit Permissions",
+                "description": "Verify that the user can grant 'Can edit content' permissions to team members.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "permissions": "Can edit content"
+                },
+                "expected": {
+                    "outcome": "Edit permissions granted successfully.",
+                    "status": "Permissions Granted"
+                }
+            },
+            {
+                "name": "Editing Content with Edit Permissions",
+                "description": "Verify that team members with 'Can edit content' permissions can add and edit pages in the database.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "action": "Edit page content"
+                },
+                "expected": {
+                    "outcome": "Team member successfully edited page content.",
+                    "status": "Content Edited"
+                }
+            },
+            {
+                "name": "Restricting Property Editing",
+                "description": "Verify that team members cannot edit properties or views with 'Can edit content' permissions.",
+                "input": {
+                    "teamMember": "member@example.com",
+                    "action": "Edit property"
+                },
+                "expected": {
+                    "outcome": "Action blocked due to insufficient permissions.",
+                    "status": "Not Allowed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Database Lock",
+            "scenario": "User locks and unlocks a database to control structure changes.",
+            "actors": "User",
+            "preconditions": [
+                "User is an admin with permissions to lock/unlock the database."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User selects 'Lock/Unlock database' and confirms the action."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Lock and Unlock Database",
+                "description": "Verify that the user can lock and unlock a database, preventing or allowing structural changes.",
+                "input": {
+                    "action": "Lock/Unlock",
+                    "databaseName": "Project Tracker"
+                },
+                "expected": {
+                    "outcome": {
+                        "databaseName": "Project Tracker",
+                        "locked": "true/false",
+                        "structureChangesAllowed": "false/true"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Lock Database Without Permission",
+                "description": "Verify that users without permissions cannot lock/unlock the database.",
+                "input": {
+                    "action": "Lock Database",
+                    "databaseName": "Project Tracker"
+                },
+                "expected": {
+                    "outcome": {
+                        "databaseName": "Project Tracker",
+                        "locked": false,
+                        "error": "Insufficient permissions"
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Handling Changes in a Locked Database",
+            "scenario": "User attempts to change structure of a locked database.",
+            "actors": "User",
+            "preconditions": [
+                "Database is locked; user has edit permissions for content only."
+            ],
+            "steps": [
+                "User tries to modify properties or views of the locked database."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Edit Locked Database Properties or Views",
+                "description": "Verify that users cannot modify properties, add views, or delete properties in a locked database.",
+                "input": {
+                    "action": "Modify Structure",
+                    "changes": [
+                        "Edit Property",
+                        "Add View",
+                        "Delete Property"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "changesAllowed": false,
+                        "error": "Database is locked, structural changes are restricted."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Database Properties",
+            "scenario": "User adds, edits, and deletes properties in a database.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the database."
+            ],
+            "steps": [
+                "User navigates to database settings.",
+                "User selects 'New property' to add a property.",
+                "User edits or deletes properties as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding a New Property",
+                "description": "Verify that the user can add a new property with a valid name and type.",
+                "input": {
+                    "action": "Add Property",
+                    "propertyName": "Priority",
+                    "propertyType": "Select"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyAdded": true,
+                        "propertyName": "Priority",
+                        "propertyType": "Select"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Adding a Property with Empty Name",
+                "description": "Verify that the user cannot add a property with an empty name.",
+                "input": {
+                    "action": "Add Property",
+                    "propertyName": "",
+                    "propertyType": "Text"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyAdded": false,
+                        "error": "Property name cannot be empty."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Deleting a Property",
+                "description": "Verify that the user can delete a property.",
+                "input": {
+                    "action": "Delete Property",
+                    "propertyName": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "propertyDeleted": true,
+                        "propertyName": "Priority"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Editing Property Values",
+            "scenario": "User edits values for different property types in the database.",
+            "actors": "User",
+            "preconditions": [
+                "Database has predefined properties."
+            ],
+            "steps": [
+                "User selects a property cell in the database.",
+                "User enters or updates the value for the property.",
+                "User saves the changes."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Editing Text Property",
+                "description": "Verify that the user can enter text into a text property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Text",
+                    "value": "Project description."
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": true,
+                        "propertyType": "Text",
+                        "newValue": "Project description."
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Entering Invalid Number in Number Property",
+                "description": "Verify that the user cannot enter non-numeric values in a number property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Number",
+                    "value": "ABC"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": false,
+                        "propertyType": "Number",
+                        "error": "Invalid input; numbers only."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Clearing a Date Property",
+                "description": "Verify that the user can clear the value in a date property.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Date",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": true,
+                        "propertyType": "Date",
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Handling Invalid and Empty Values for Properties",
+            "scenario": "User enters invalid or empty values for different property types in a database.",
+            "actors": "User",
+            "preconditions": [
+                "Database has predefined properties for testing different data types."
+            ],
+            "steps": [
+                "User selects a property cell in the database.",
+                "User attempts to enter invalid or empty values for each property type.",
+                "System validates and either accepts or rejects the input."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Entering Invalid Number",
+                "description": "Verify that the system rejects non-numeric values for a number property.",
+                "input": {
+                    "propertyType": "Number",
+                    "value": "abc123"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": false,
+                        "error": "Invalid input; numbers only."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Number Property",
+                "description": "Verify that the system accepts an empty value for a number property.",
+                "input": {
+                    "propertyType": "Number",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": true,
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Email Format",
+                "description": "Verify that the system rejects an invalid email format.",
+                "input": {
+                    "propertyType": "Email",
+                    "value": "invalid-email"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": false,
+                        "error": "Invalid email format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Email Property",
+                "description": "Verify that the system accepts an empty value for an email property.",
+                "input": {
+                    "propertyType": "Email",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": true,
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid URL Format",
+                "description": "Verify that the system rejects an invalid URL format.",
+                "input": {
+                    "propertyType": "URL",
+                    "value": "www.invalid-url"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": false,
+                        "error": "Invalid URL format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty URL Property",
+                "description": "Verify that the system accepts an empty value for a URL property.",
+                "input": {
+                    "propertyType": "URL",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": true,
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Date Format",
+                "description": "Verify that the system rejects an invalid date format.",
+                "input": {
+                    "propertyType": "Date",
+                    "value": "32-12-2024"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": false,
+                        "error": "Invalid date format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Date Property",
+                "description": "Verify that the system accepts an empty value for a date property.",
+                "input": {
+                    "propertyType": "Date",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": true,
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Phone Format",
+                "description": "Verify that the system rejects an invalid phone number format.",
+                "input": {
+                    "propertyType": "Phone",
+                    "value": "123-ABCD"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": false,
+                        "error": "Invalid phone number format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Phone Property",
+                "description": "Verify that the system accepts an empty value for a phone property.",
+                "input": {
+                    "propertyType": "Phone",
+                    "value": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "valueAccepted": true,
+                        "newValue": null
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Creating and Managing Relations",
+            "scenario": "User creates and manages relations between databases to link related data.",
+            "actors": "User",
+            "preconditions": [
+                "User has two databases created in Notion.",
+                "User has permissions to modify database properties."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User adds a new 'Relation' property.",
+                "User selects the target database to link.",
+                "User configures relation settings and saves."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a One-Way Relation",
+                "description": "Verify that the user can create a one-way relation between two databases.",
+                "input": {
+                    "action": "Create Relation",
+                    "sourceDatabase": "Projects",
+                    "targetDatabase": "Tasks"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "One-Way",
+                        "sourceDatabase": "Projects",
+                        "targetDatabase": "Tasks"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Two-Way Relation",
+                "description": "Verify that the user can create a two-way relation between two databases.",
+                "input": {
+                    "action": "Create Relation",
+                    "sourceDatabase": "Clients",
+                    "targetDatabase": "Meetings",
+                    "relationType": "Two-Way"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "Two-Way",
+                        "sourceDatabase": "Clients",
+                        "targetDatabase": "Meetings"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Relating a Database to Itself",
+                "description": "Verify that the user can create a relation within the same database to link related items.",
+                "input": {
+                    "action": "Create Self-Relation",
+                    "databaseName": "Tasks",
+                    "relationName": "Subtasks"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "Self-Relation",
+                        "databaseName": "Tasks"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Creating and Managing Rollups",
+            "scenario": "User creates rollup properties to aggregate data from related databases.",
+            "actors": "User",
+            "preconditions": [
+                "User has related databases with numeric or date properties."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User adds a new 'Rollup' property.",
+                "User selects the related property to roll up and chooses a calculation method.",
+                "User saves the rollup property settings."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Sum Rollup",
+                "description": "Verify that the user can create a rollup property to sum numeric values from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Items Purchased",
+                    "propertyToRollup": "Price",
+                    "calculation": "Sum"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Sum",
+                        "result": 250.0
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Count Rollup",
+                "description": "Verify that the user can create a rollup property to count non-empty values from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Tasks",
+                    "propertyToRollup": "Status",
+                    "calculation": "Count Not Empty"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Count Not Empty",
+                        "result": 15
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Date Rollup",
+                "description": "Verify that the user can create a rollup property to find the latest date from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Tasks",
+                    "propertyToRollup": "Due Date",
+                    "calculation": "Latest Date"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Latest Date",
+                        "result": "2024-12-31"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Handling Invalid or Empty Rollup Values",
+            "scenario": "User tries to create rollup properties with invalid or empty values.",
+            "actors": "User",
+            "preconditions": [
+                "Related databases contain inconsistent or empty data."
+            ],
+            "steps": [
+                "User attempts to create a rollup with invalid data types or empty values."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Invalid Data Type for Rollup",
+                "description": "Verify that the system rejects rollup creation if the selected property is not compatible with the calculation.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Projects",
+                    "propertyToRollup": "Name",
+                    "calculation": "Sum"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": false,
+                        "error": "Invalid data type for selected calculation."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Values in Rollup Property",
+                "description": "Verify that the system can handle rollup calculations with empty values correctly.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Items Purchased",
+                    "propertyToRollup": "Price",
+                    "calculation": "Count Empty"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Count Empty",
+                        "result": 3
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Database Views",
+            "scenario": "User creates, customizes, and switches between different views in a database.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to create and edit views."
+            ],
+            "steps": [
+                "User navigates to the database and selects 'Add a view'.",
+                "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                "User customizes the view settings (properties, filters, sorts).",
+                "User switches between different views using the dropdown menu."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a New View",
+                "description": "Verify that the user can create a new view with customized settings.",
+                "input": {
+                    "action": "Create View",
+                    "viewType": "List",
+                    "viewName": "Project List",
+                    "properties": [
+                        "Task",
+                        "Due Date",
+                        "Priority"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "viewCreated": true,
+                        "viewName": "Project List",
+                        "propertiesIncluded": [
+                            "Task",
+                            "Due Date",
+                            "Priority"
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Switching Between Views",
+                "description": "Verify that the user can switch between different database views without errors.",
+                "input": {
+                    "action": "Switch View",
+                    "views": [
+                        "Table",
+                        "Calendar"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "currentView": "Calendar",
+                        "previousView": "Table"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Editing View Components",
+                "description": "Verify that the user can edit existing view components such as layout and properties.",
+                "input": {
+                    "action": "Edit View",
+                    "viewName": "Kanban Board",
+                    "properties": [
+                        "Task",
+                        "Status",
+                        "Assignee"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "viewName": "Kanban Board",
+                        "propertiesUpdated": [
+                            "Task",
+                            "Status",
+                            "Assignee"
+                        ]
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Applying Filters to a Database",
+            "scenario": "User applies filters to a database view to display specific data.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to edit filters in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Filter'.",
+                "User selects a property and sets criteria for filtering.",
+                "User adds additional filters or groups using 'AND'/'OR' logic.",
+                "User saves the filter configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Applying a Simple Filter",
+                "description": "Verify that the user can apply a simple filter based on a single property.",
+                "input": {
+                    "action": "Apply Filter",
+                    "filterProperty": "Status",
+                    "criteria": "Completed"
+                },
+                "expected": {
+                    "outcome": {
+                        "filteredItems": [
+                            "Task 1",
+                            "Task 3"
+                        ],
+                        "filterProperty": "Status",
+                        "criteria": "Completed"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating an Advanced Filter",
+                "description": "Verify that the user can create an advanced filter using 'AND'/'OR' logic.",
+                "input": {
+                    "action": "Apply Filter",
+                    "filters": [
+                        {
+                            "property": "Priority",
+                            "criteria": "High",
+                            "logic": "AND"
+                        },
+                        {
+                            "property": "Due Date",
+                            "criteria": "Next 7 Days",
+                            "logic": "OR"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "filteredItems": [
+                            "Task 2",
+                            "Task 4"
+                        ],
+                        "filtersApplied": [
+                            {
+                                "property": "Priority",
+                                "criteria": "High"
+                            },
+                            {
+                                "property": "Due Date",
+                                "criteria": "Next 7 Days"
+                            }
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing a Filter",
+                "description": "Verify that the user can remove an applied filter from the database view.",
+                "input": {
+                    "action": "Remove Filter",
+                    "filterProperty": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "filterRemoved": true,
+                        "filterProperty": "Priority",
+                        "allItemsDisplayed": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Sorting Items in a Database",
+            "scenario": "User sorts database items based on a specific property in ascending or descending order.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to sort items in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Sort'.",
+                "User selects a property and chooses ascending or descending order.",
+                "User adds multiple sorts if needed and adjusts their order.",
+                "User saves the sort configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Sorting by Due Date",
+                "description": "Verify that the user can sort items by 'Due Date' in ascending order.",
+                "input": {
+                    "action": "Sort",
+                    "sortProperty": "Due Date",
+                    "order": "Ascending"
+                },
+                "expected": {
+                    "outcome": {
+                        "sortedItems": [
+                            "Task 1",
+                            "Task 2",
+                            "Task 3"
+                        ],
+                        "sortProperty": "Due Date",
+                        "order": "Ascending"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Sorting by Priority and Status",
+                "description": "Verify that the user can sort items by 'Priority' and 'Status' with different orders.",
+                "input": {
+                    "action": "Sort",
+                    "sorts": [
+                        {
+                            "property": "Priority",
+                            "order": "Descending"
+                        },
+                        {
+                            "property": "Status",
+                            "order": "Ascending"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "sortedItems": [
+                            "Task 4",
+                            "Task 1",
+                            "Task 3"
+                        ],
+                        "sortsApplied": [
+                            {
+                                "property": "Priority",
+                                "order": "Descending"
+                            },
+                            {
+                                "property": "Status",
+                                "order": "Ascending"
+                            }
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing a Sort",
+                "description": "Verify that the user can remove an applied sort from the database view.",
+                "input": {
+                    "action": "Remove Sort",
+                    "sortProperty": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "sortRemoved": true,
+                        "sortProperty": "Priority",
+                        "defaultOrderRestored": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Grouping Items in a Database",
+            "scenario": "User groups database items by a specific property to organize data visually.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to group items in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Group'.",
+                "User selects a property to group by (e.g., 'Status').",
+                "User arranges the groups in a desired order.",
+                "User saves the group configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Grouping by Status",
+                "description": "Verify that the user can group items by 'Status' in a board view.",
+                "input": {
+                    "action": "Group",
+                    "groupProperty": "Status"
+                },
+                "expected": {
+                    "outcome": {
+                        "groupedItems": [
+                            "Task 1",
+                            "Task 2"
+                        ],
+                        "groupProperty": "Status"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Hiding Empty Groups",
+                "description": "Verify that the user can hide groups without items in the database view.",
+                "input": {
+                    "action": "Update Group",
+                    "hideEmptyGroups": true
+                },
+                "expected": {
+                    "outcome": {
+                        "emptyGroupsHidden": true,
+                        "visibleGroups": [
+                            "Task 1",
+                            "Task 2"
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing Grouping",
+                "description": "Verify that the user can remove grouping from the database view.",
+                "input": {
+                    "action": "Remove Group",
+                    "groupProperty": "None"
+                },
+                "expected": {
+                    "outcome": {
+                        "groupingRemoved": true,
+                        "allItemsDisplayed": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Searching a Database",
+            "scenario": "User searches for specific items within a database using keywords.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to search within the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks the search icon.",
+                "User enters keywords related to page titles or properties.",
+                "User reviews the search results displayed in real-time."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Searching by Keyword",
+                "description": "Verify that the user can search for items using a keyword.",
+                "input": {
+                    "action": "Search",
+                    "keyword": "Project"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemsFound": [
+                            "Project A",
+                            "Project B"
+                        ],
+                        "keyword": "Project"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "No Matching Results",
+                "description": "Verify that no items are displayed when there are no matching results.",
+                "input": {
+                    "action": "Search",
+                    "keyword": "Nonexistent"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemsFound": [],
+                        "keyword": "Nonexistent"
+                    },
+                    "status": "No Results"
+                }
+            },
+            {
+                "name": "Clearing Search",
+                "description": "Verify that the user can clear the search input to return to the default view.",
+                "input": {
+                    "action": "Clear Search"
+                },
+                "expected": {
+                    "outcome": {
+                        "searchCleared": true,
+                        "defaultViewRestored": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Data in Table View",
+            "scenario": "User creates, modifies, and deletes rows and columns in a table view.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the table view.",
+                "Table view is already created."
+            ],
+            "steps": [
+                "User navigates to the database table view.",
+                "User adds, edits, or deletes rows and columns as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Rows",
+                "description": "Verify that the user can add a new row to the table with all columns populated.",
+                "input": {
+                    "action": "Add Row",
+                    "columns": [
+                        "Task",
+                        "Due Date",
+                        "Priority"
+                    ],
+                    "values": [
+                        "New Task",
+                        "2024-10-10",
+                        "High"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "rowAdded": true,
+                        "rowValues": [
+                            "New Task",
+                            "2024-10-10",
+                            "High"
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Deleting Columns",
+                "description": "Verify that the user can delete a column and all associated data is removed.",
+                "input": {
+                    "action": "Delete Column",
+                    "columnName": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnDeleted": true,
+                        "columnName": "Priority",
+                        "dataRemoved": true
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Empty Values",
+                "description": "Verify that leaving a cell empty in a required column triggers a validation message.",
+                "input": {
+                    "action": "Edit Cell",
+                    "columnName": "Task",
+                    "newValue": ""
+                },
+                "expected": {
+                    "outcome": {
+                        "validationMessage": "Task cannot be empty."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Organizing Simple Data in List View",
+            "scenario": "User organizes notes or articles using list view with minimal properties.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the list view.",
+                "List view is already created."
+            ],
+            "steps": [
+                "User navigates to the database list view.",
+                "User adds, edits, or deletes list items as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Items",
+                "description": "Verify that the user can add a new item with minimal properties like title and date.",
+                "input": {
+                    "action": "Add Item",
+                    "properties": [
+                        "Title",
+                        "Date"
+                    ],
+                    "values": [
+                        "New Note",
+                        "2024-10-15"
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "itemAdded": true,
+                        "itemValues": [
+                            "New Note",
+                            "2024-10-15"
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Date",
+                "description": "Verify that entering an invalid date format shows an error message.",
+                "input": {
+                    "action": "Edit Property",
+                    "propertyType": "Date",
+                    "value": "15-October-2024"
+                },
+                "expected": {
+                    "outcome": {
+                        "valueUpdated": false,
+                        "error": "Invalid date format."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Editing Item Title",
+                "description": "Verify that the user can successfully edit the title of a list item.",
+                "input": {
+                    "action": "Edit Title",
+                    "newValue": "Updated Note Title"
+                },
+                "expected": {
+                    "outcome": {
+                        "titleUpdated": true,
+                        "newTitle": "Updated Note Title"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Visualizing Workflows in Board View",
+            "scenario": "User creates boards to manage project stages or tasks.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the board view.",
+                "Board view is already created."
+            ],
+            "steps": [
+                "User navigates to the database board view.",
+                "User moves items between columns to represent changes in workflow stages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Moving Items Across Stages",
+                "description": "Verify that the user can drag and drop items between different stages (columns).",
+                "input": {
+                    "action": "Move Item",
+                    "itemName": "Task 1",
+                    "fromColumn": "To Do",
+                    "toColumn": "In Progress"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemMoved": true,
+                        "itemName": "Task 1",
+                        "newColumn": "In Progress"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Stage Name",
+                "description": "Verify that the system rejects a stage name with special characters.",
+                "input": {
+                    "action": "Add Column",
+                    "columnName": "In-Progress#1"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnAdded": false,
+                        "error": "Invalid column name; special characters are not allowed."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Archiving Columns",
+                "description": "Verify that the user can hide or archive columns with completed tasks.",
+                "input": {
+                    "action": "Archive Column",
+                    "columnName": "Completed"
+                },
+                "expected": {
+                    "outcome": {
+                        "columnArchived": true,
+                        "columnName": "Completed"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Managing Events in Calendar View",
+            "scenario": "User schedules and views events on a calendar.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the calendar view.",
+                "Calendar view is already created."
+            ],
+            "steps": [
+                "User navigates to the database calendar view.",
+                "User adds, edits, or deletes events as needed."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Adding Multi-Day Events",
+                "description": "Verify that the user can add events that span multiple days.",
+                "input": {
+                    "action": "Add Event",
+                    "eventTitle": "Project Kickoff",
+                    "startDate": "2024-10-10",
+                    "endDate": "2024-10-12"
+                },
+                "expected": {
+                    "outcome": {
+                        "eventAdded": true,
+                        "eventTitle": "Project Kickoff",
+                        "startDate": "2024-10-10",
+                        "endDate": "2024-10-12"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Invalid Date Range",
+                "description": "Verify that entering a start date later than the end date triggers an error.",
+                "input": {
+                    "action": "Add Event",
+                    "eventTitle": "Invalid Event",
+                    "startDate": "2024-10-15",
+                    "endDate": "2024-10-12"
+                },
+                "expected": {
+                    "outcome": {
+                        "eventAdded": false,
+                        "error": "Start date cannot be later than end date."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Changing Calendar Start Day",
+                "description": "Verify that changing the week start day updates the view correctly.",
+                "input": {
+                    "action": "Change Start Day",
+                    "newStartDay": "Monday"
+                },
+                "expected": {
+                    "outcome": {
+                        "startDayChanged": true,
+                        "newStartDay": "Monday"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Assigning Unique Identifiers to Database Items",
+            "scenario": "User assigns unique identifiers to each item for easy reference.",
+            "actors": "User",
+            "preconditions": [
+                "User has permissions to modify the database.",
+                "Database has a unique ID property set up."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User configures or updates the unique ID format for each new item."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Generating Unique ID",
+                "description": "Verify that each new item in the database is assigned a unique identifier automatically.",
+                "input": {
+                    "action": "Add Item",
+                    "itemTitle": "New Task"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemAdded": true,
+                        "itemTitle": "New Task",
+                        "uniqueIDGenerated": true
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Custom ID Format",
+                "description": "Verify that the user can set a custom format for unique IDs (e.g., prefix or suffix).",
+                "input": {
+                    "action": "Configure Unique ID",
+                    "format": "Task-####"
+                },
+                "expected": {
+                    "outcome": {
+                        "formatApplied": true,
+                        "exampleID": "Task-0001"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Duplicate ID Error",
+                "description": "Verify that trying to manually set a duplicate ID triggers an error.",
+                "input": {
+                    "action": "Set Unique ID",
+                    "itemTitle": "Task 1",
+                    "uniqueID": "ID-001"
+                },
+                "expected": {
+                    "outcome": {
+                        "IDSet": false,
+                        "error": "Duplicate unique ID detected."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Create New Teamspace",
+            "scenario": "A user creates a teamspace and invites other members by mentioning their emails. Those who accept the invitations become members of the teamspace.",
+            "actors": "User",
+            "preconditions": "User is logged in to Notion and has at least one workspace in Notion.",
+            "steps": [
+                "User provides name of the new Teamspace",
+                "User provides icon of the new Teamspace",
+                "User provides emails of other invited members"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Teamspace Creation",
+                "description": "Verify that a user can successfully create a teamspace when he provides valid information.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation successful",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Empty Teamspace Name",
+                "description": "Verify that the system handles the case where a user provides empty teamspace name.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invalid Icon Type",
+                "description": "Verify that the system rejects unsupported file types for the teamspace icon.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.txt",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Too Many Invited Emails",
+                "description": "Verify that the system prevents a user under Free plan from inviting more than 10 guests in a single teamspace creation.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com",
+                        "jane.doe@gmail.com",
+                        "john.doe@gmail.com",
+                        "alice.smith@gmail.com",
+                        "bob.brown@gmail.com",
+                        "amim2.2001@gmail.com",
+                        "kowshik3.2001@gmail.com",
+                        "jane4.doe@gmail.com",
+                        "john6.doe@gmail.com",
+                        "alice7.smith@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invalid Email Format",
+                "description": "Verify that the system detects and rejects invalid email formats.",
+                "input": {
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "invalid-email",
+                        "kowshik.2001@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invitaion to an Email without Notion",
+                "description": "Verify that the system detects when the given email address has no associated Notion account.",
+                "input": {
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "non-existent-2001@gmail.com",
+                        "kowshik.2001@gmail.com"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Manage Teamspace Permissions",
+            "scenario": "A teamspace owner may change the permission levels of any other owner or member.A member may only change the permission levels of other members.",
+            "actors": "Teamspace Owner, Teamspace Member",
+            "preconditions": "The teamspace is created and members have joined successfully.",
+            "steps": [
+                "Teamspace owner changes the permission level of other members to one of 'Full Access', '\u00c3\u2021an View', 'Can Edit' or 'Can Comment'",
+                "Alternatively, Teamspace owner upgrades another member to owner.",
+                "Alternatively, Teamspace owner downgrades another owner to member."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Consistent Permissions",
+                "description": "Verify that consistent teamspace permissions can be set properly.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Owner",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permissions changed successfully",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Invalid Permission Level",
+                "description": "Verify that the permission level falls under one of the 4 categories.",
+                "input": {
+                    "memberPermissionLevel": "No Access",
+                    "memberPermissionLevelSetBy": "Teamspace Owner",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Permission Level Update by Member",
+                "description": "Verify that a general member cannot alter the permission levels of all members.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Member",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Downgrade of Owner by Member",
+                "description": "Verify that a general member cannot downgrade a owner to a general member.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Member",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Member"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Share Page with Individuals",
+            "scenario": "A user shares his page with other members or groups while specifying the access levels of each.",
+            "actors": "User",
+            "preconditions": "The user is logged in and the page is created.",
+            "steps": [
+                "User selects a page from his workspace.",
+                "User selects names of members or groups to share with.",
+                "User sets permission levels of each of the members or groups."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Sharing",
+                "description": "Verify that the page is shared properly when invites members and groups are valid.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "Full Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Sharing with only Members",
+                "description": "Verify that the page sharing is successful when only members are added and no groups are added.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "Full Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": []
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Sharing with only Groups",
+                "description": "Verify that the page sharing is successful when only groups are added and no individual members are added.",
+                "input": {
+                    "invitedMembers": [],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Empty Sharing Specification",
+                "description": "Verify that the page sharing is rejected when no members or groups are selected.",
+                "input": {
+                    "invitedMembers": [],
+                    "invitedGroups": []
+                },
+                "expected": {
+                    "outcome": "Page sharing failed.",
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Invalid Permission Category",
+                "description": "Verify that the page sharing is rejected when the chosen permission category does not fall under the allowed 4 types of permissions.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "No Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page sharing failed.",
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Publish Page as Website",
+            "scenario": "A user publishes a page as a website that if publicly available. The user selects domain name, SEO and link settings based on his subscription plan.",
+            "actors": "User",
+            "preconditions": "The user is logged in and the page is created.",
+            "steps": [
+                "User opens a page from his workspace.",
+                "User proceeds to publish as Website option.",
+                "User approves the proposed randomly generated website domain.",
+                "Alternatively, the user may choose his own domain if he is in a PLus subscription",
+                "The user chooses SEO and LInk Expiration related preferences and finalizes publishing."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Publishing",
+                "description": "Verify that the website is created properly when the user follows a valid process.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "abc-234-rt.notion.site",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website published successfully",
+                    "status": "Published"
+                }
+            },
+            {
+                "name": "Choosing Custom Domain in Free Plan",
+                "description": "Verify that the cannot choose a custom domain when he is in a Free plan.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website publish canceled",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Choosing Custom Domain in Plus Plan",
+                "description": "Verify that the can choose a custom domain when he is in a Plus subscription plan.",
+                "input": {
+                    "subscriptionPlan": "PLus",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website published successfully",
+                    "status": "Published"
+                }
+            },
+            {
+                "name": "Specifying Link Expiry Period in Free Plan",
+                "description": "Verify that the cannot specify a link expiry period when he is in a Free plan.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "15 days"
+                },
+                "expected": {
+                    "outcome": "Website publish canceled",
+                    "status": "Aborted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Collaborate in real-time",
+            "scenario": "One or more than one user collaborates on a page content in real-time. The system approves or rejects the edits based on consistency.",
+            "actors": "User",
+            "preconditions": "The page is shared with the user(s).",
+            "steps": [
+                "User opens tha shared page.",
+                "User selects a particular block of the page.",
+                "User edits the content of the selected block."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Editing",
+                "description": "Verify that the editing is successful when all editors have enough privilege and they are not simultaneously modifying the same block.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Full Access"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block B"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Content Edited successfully",
+                    "status": "Saved"
+                }
+            },
+            {
+                "name": "Insufficient Permission",
+                "description": "Verify that the editing is discarded when some editor has insufficient access privilege.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Can View"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block B"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Edit discarded",
+                    "status": "Unchanged"
+                }
+            },
+            {
+                "name": "Simultaneous Editing",
+                "description": "Verify that the editing is discarded when more than one editor are trying to simultaneously modify the same block.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Full Access"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block A"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Edit discarded",
+                    "status": "Unchanged"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add comments to Page Content",
+            "scenario": "On the comment portion of a page block, user writes a text and/or mentions another persons/guests/pages.",
+            "actors": "User",
+            "preconditions": "User is logged in and has a privilege level equal or higher than 'Can Comment'.",
+            "steps": [
+                "User selects a particular block of the page.",
+                "User writes a textual comment.",
+                "Alternatively, user may mention other persons or groups or pages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Comment",
+                "description": "Verify that the comment is successfully posted when all parameters are correct.",
+                "input": {
+                    "commentor": "Amim",
+                    "commentText": "Done!",
+                    "mentionedPersons": [
+                        "Muhit",
+                        "Kowshik"
+                    ],
+                    "mentionedGroups": [
+                        "CSE-325"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Comment posted and mentioned persons and groups notified successfully",
+                    "status": "Posted"
+                }
+            },
+            {
+                "name": "Self Mentioning",
+                "description": "Verify that the comment is successfully posted without sending notification when a user mentions himself/herself.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "Done!",
+                    "mentionedPersons": [
+                        "Jaber"
+                    ],
+                    "mentionedGroups": []
+                },
+                "expected": {
+                    "outcome": "Comment posted successfully but no one is notified.",
+                    "status": "Posted"
+                }
+            },
+            {
+                "name": "Empty Text and Mention",
+                "description": "Verify that the comment is rejected if no text or mention is there.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "",
+                    "mentionedPersons": [],
+                    "mentionedGroups": []
+                },
+                "expected": {
+                    "outcome": "Comment rejected.",
+                    "status": "Discarded"
+                }
+            },
+            {
+                "name": "Only Mentioning without Text",
+                "description": "Verify that the comment is posted even if it does not have a text but mentions some users/groups.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "",
+                    "mentionedPersons": [
+                        "Amim"
+                    ],
+                    "mentionedGroups": [
+                        "CSE-325"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Comment posted and mentioned persons and groups notified successfully",
+                    "status": "Posted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Suggest Edits to Content",
+            "scenario": "A user suggests edit to a block of a page content and the owner accepts or rejects the proposed change.",
+            "actors": "Page owner, Guest User",
+            "preconditions": "Guest user has enough privilege.",
+            "steps": [
+                "User selects a particular block of the page.",
+                "User writes a textual comment.",
+                "Alternatively, user may mention other persons or groups or pages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Acceptance by Owner",
+                "description": "Verify that the edit is properly reflected on the content when the owner approves the change.",
+                "input": {
+                    "previousContent": "A",
+                    "editedContent": "B",
+                    "owenerResponse": "Accept"
+                },
+                "expected": {
+                    "outcome": "Previous content replaced by suggested new content.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Rejection by Owner",
+                "description": "Verify that the edit is discarded when the owner rejects the change.",
+                "input": {
+                    "previousContent": "A",
+                    "editedContent": "B",
+                    "owenerResponse": "Reject"
+                },
+                "expected": {
+                    "outcome": "Previous content not changed.",
+                    "status": "Unchanged"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Upgrade plan",
+            "scenario": "A user wants to upgrades their subscription plan to access additional features and benefits.",
+            "actors": "User",
+            "preconditions": "User is loggged in",
+            "steps": [
+                "User navigates to the Upgrade plan or Explore plans section in the workspace settings",
+                "User selects the desired plan to upgrade to",
+                "User inputs the payment details",
+                "User confirms the upgrade",
+                "The system processes the payment and upgrades the plan",
+                "User receives a confirmation message along with an email"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "User is not an admin or workspace owner",
+                "description": "Verify that only an admin or workspace owner can upgrade the plan",
+                "input": {
+                    "userRole": "member"
+                },
+                "expected": {
+                    "outcome": "Plan upgradation failed",
+                    "reason": "User is not an admin or workspace owner"
+                }
+            },
+            {
+                "name": "Valid payment details",
+                "description": "Verify the payment information provided by the user can yield the payment",
+                "input": {
+                    "paymentDetails": {
+                        "cardNumber": "1234 5678 9012 3456",
+                        "expiryDate": "12/23",
+                        "cvv": "123",
+                        "zipCode": "12345"
+                    }
+                },
+                "expected": {
+                    "outcome": "Processing payment"
+                }
+            },
+            {
+                "name": "Invalid payment details",
+                "description": "Verify that the payment information provided by the user is invalid and cannot be used for payment",
+                "input": {
+                    "paymentDetails": {
+                        "cardNumber": "1234 5678 9012 3456",
+                        "expiryDate": "12/23",
+                        "cvv": "123",
+                        "zipCode": "12345"
+                    }
+                },
+                "expected": {
+                    "outcome": "Payment failed",
+                    "reason": "Invalid payment details"
+                }
+            },
+            {
+                "name": "Sufficient balance",
+                "description": "Verify that the user has sufficient balance to upgrade the plan",
+                "input": {
+                    "balance": 100,
+                    "planCost": 50
+                },
+                "expected": {
+                    "outcome": "Plan upgraded successfully",
+                    "planUpgraded": true
+                }
+            },
+            {
+                "name": "Insufficient balance",
+                "description": "Verify that the user does not have sufficient balance to upgrade the plan",
+                "input": {
+                    "balance": 50,
+                    "planCost": 100
+                },
+                "expected": {
+                    "outcome": "Payment failed",
+                    "reason": "Insufficient balance"
+                }
+            },
+            {
+                "name": "Successful upgrade",
+                "description": "Verify that the plan is successfully upgraded after payment processing",
+                "preconditions": "The user has completed the payment process",
+                "steps": [
+                    "User navigates to the Plans section in the workspace settings",
+                    "User witnesses the current plan upgraded from the past plan",
+                    "The user uses the new features of the upgraded plan"
+                ],
+                "expected": {
+                    "outcome": "Plan upgraded successfully",
+                    "newFeaturesAccessible": true
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Downgrade plan",
+            "scenario": "A user wants to downgrade their subscription plan to reduce costs or access fewer features",
+            "actors": "User",
+            "preconditions": "User is loggged in",
+            "steps": [
+                "User navigates to the Plans section in the workspace settings",
+                "User selects the desired plan to downgrade to",
+                "User confirms the downgrade",
+                "The system processes the request and adjusts the plan",
+                "User receives a confirmation message along with an email"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "User is not an admin or workspace owner",
+                "description": "Verify that only an admin or workspace owner can upgrade the plan",
+                "input": {
+                    "userRole": "member"
+                },
+                "expected": {
+                    "outcome": "Plan downgradation failed",
+                    "reason": "User is not an admin or workspace owner"
+                }
+            },
+            {
+                "name": "Successful downgrade",
+                "description": "Verify that the plan is successfully downgraded after the user confirms the downgrade",
+                "preconditions": "The user has completed the downgrade process",
+                "steps": [
+                    "User navigates to the Plans section in the workspace settings",
+                    "User witnesses the current plan downgraded from the past plan",
+                    "The user tries to access the features of the past plan"
+                ],
+                "expected": {
+                    "outcome": "Plan downgraded successfully",
+                    "featuresRestricted": true
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Update payment method",
+            "scenario": "A user wants to update their payment method for the subscription plan",
+            "actors": "User",
+            "preconditions": "User is loggged in",
+            "steps": [
+                "User navigates to the Billing section in the workspace settings",
+                "User modifies the details in the Payment method section",
+                "User confirms the update",
+                "The system processes the request and updates the payment method",
+                "User receives a confirmation message along with an email"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "User is not an admin or workspace owner",
+                "description": "Verify that only an admin or workspace owner can upgrade the plan",
+                "input": {
+                    "userRole": "member"
+                },
+                "expected": {
+                    "outcome": "Upgrade plan failed",
+                    "reason": "User is not an admin or workspace owner"
+                }
+            },
+            {
+                "name": "Valid payment method",
+                "description": "Verify that the new payment method provided by the user is valid and can be used for future payments",
+                "input": {
+                    "paymentMethod": {
+                        "cardNumber": "1234 5678 9012 3456",
+                        "expiryDate": "12/23",
+                        "cvv": "123",
+                        "zipCode": "12345"
+                    }
+                },
+                "expected": {
+                    "outcome": "Payment method updated successfully",
+                    "Confirmation email received": true
+                }
+            },
+            {
+                "name": "Successful payment method update",
+                "description": "Verify that the payment method is successfully updated after the user confirms the update",
+                "preconditions": "The user has completed the payment method update process",
+                "steps": [
+                    "User navigates to the Billing section in the workspace settings",
+                    "User witnesses the updated payment method details"
+                ],
+                "expected": {
+                    "successful update": true,
+                    "newPaymentMethodAccessible": true
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Task Management Integration",
+            "scenario": "A third-party task management application integrates with Notion to synchronize tasks across platforms.",
+            "actors": "User, Notion API, Third-Party Task Management System",
+            "preconditions": "User has valid accounts on both platforms, and the integration is authorized.",
+            "steps": [
+                "User creates or updates tasks in the third-party app",
+                "Tasks are synchronized with Notion",
+                "Notion database reflects updated task information"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Successful Task Synchronization",
+                "description": "Verify that tasks created in the third-party app are successfully synced to the Notion database.",
+                "input": {
+                    "taskDetails": {
+                        "title": "Complete project",
+                        "dueDate": "2024-09-30",
+                        "status": "In Progress"
+                    }
+                },
+                "expected": {
+                    "outcome": "Task synced successfully",
+                    "notionDatabaseUpdate": true
+                }
+            },
+            {
+                "name": "Task Deletion",
+                "description": "Verify that tasks deleted in the third-party app are removed from the Notion database.",
+                "input": {
+                    "taskDetails": {
+                        "taskId": "1234",
+                        "action": "Delete"
+                    }
+                },
+                "expected": {
+                    "outcome": "Task removed from Notion",
+                    "notionDatabaseUpdate": true
+                }
+            },
+            {
+                "name": "API Rate Limit Handling",
+                "description": "Verify that the system correctly handles API rate limits when syncing a large number of tasks to Notion.",
+                "input": {
+                    "taskSyncRequest": "Batch of 100 tasks"
+                },
+                "expected": {
+                    "outcome": "Tasks synced successfully after retry",
+                    "rateLimitExceeded": true,
+                    "retrySuccessful": true
+                }
+            },
+            {
+                "name": "Unauthorized API Call",
+                "description": "Verify that unauthorized API calls are blocked by Notion during task sync attempts.",
+                "input": {
+                    "userRole": "Unauthenticated",
+                    "attemptedAction": "Sync tasks"
+                },
+                "expected": {
+                    "outcome": "Sync blocked",
+                    "notionStatus": "Unauthorized"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "CRM Data Synchronization",
+            "scenario": "A CRM system integrates with Notion to sync customer data and notes to Notion databases.",
+            "actors": "Sales Representative, Notion API, CRM System",
+            "preconditions": "Sales rep has authorized access to both the CRM and Notion, and the integration is configured.",
+            "steps": [
+                "Sales rep adds or updates customer data in the CRM",
+                "The system syncs customer data to the Notion database",
+                "Notion database reflects updated customer information"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Customer Data Sync Success",
+                "description": "Verify that the customer data is correctly synchronized from the CRM system to Notion.",
+                "input": {
+                    "customerData": {
+                        "name": "Acme Corp",
+                        "contactPerson": "Jane Doe",
+                        "email": "jane.doe@acme.com"
+                    }
+                },
+                "expected": {
+                    "outcome": "Data synced successfully",
+                    "notionDatabaseUpdate": true
+                }
+            },
+            {
+                "name": "Duplicate Data Handling",
+                "description": "Verify that duplicate customer data entries are properly handled by the integration.",
+                "input": {
+                    "customerData": {
+                        "name": "Acme Corp",
+                        "contactPerson": "Jane Doe",
+                        "email": "jane.doe@acme.com"
+                    }
+                },
+                "expected": {
+                    "outcome": "Duplicate entry detected",
+                    "notionDatabaseUpdate": false
+                }
+            },
+            {
+                "name": "Sync Failure Due to Invalid Data",
+                "description": "Verify that invalid data (e.g., missing required fields) causes the sync to fail.",
+                "input": {
+                    "customerData": {
+                        "name": "",
+                        "contactPerson": "John Smith",
+                        "email": "john.smith@invalid"
+                    }
+                },
+                "expected": {
+                    "outcome": "Data sync failed",
+                    "notionStatus": "Error",
+                    "errorMessage": "Invalid data format"
+                }
+            }
+        ]
+    }
+]

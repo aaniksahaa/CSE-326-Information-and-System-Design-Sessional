@@ -1,0 +1,80 @@
+[
+    {
+        "usecase": {
+            "name": "Managing Database Lock",
+            "scenario": "User locks and unlocks a database to control structure changes.",
+            "actors": "User",
+            "preconditions": [
+                "User is an admin with permissions to lock/unlock the database."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User selects 'Lock/Unlock database' and confirms the action."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Lock and Unlock Database",
+                "description": "Verify that the user can lock and unlock a database, preventing or allowing structural changes.",
+                "input": {
+                    "action": "Lock/Unlock",
+                    "databaseName": "Project Tracker"
+                },
+                "expected": {
+                    "outcome": {
+                        "databaseName": "Project Tracker",
+                        "locked": "true/false",
+                        "structureChangesAllowed": "false/true"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Lock Database Without Permission",
+                "description": "Verify that users without permissions cannot lock/unlock the database.",
+                "input": {
+                    "action": "Lock Database",
+                    "databaseName": "Project Tracker"
+                },
+                "expected": {
+                    "outcome": {
+                        "databaseName": "Project Tracker",
+                        "locked": false,
+                        "error": "Insufficient permissions"
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Handling Changes in a Locked Database",
+            "scenario": "User attempts to change structure of a locked database.",
+            "actors": "User",
+            "preconditions": [
+                "Database is locked; user has edit permissions for content only."
+            ],
+            "steps": [
+                "User tries to modify properties or views of the locked database."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Edit Locked Database Properties or Views",
+                "description": "Verify that users cannot modify properties, add views, or delete properties in a locked database.",
+                "input": {
+                    "action": "Modify Structure",
+                    "changes": ["Edit Property", "Add View", "Delete Property"]
+                },
+                "expected": {
+                    "outcome": {
+                        "changesAllowed": false,
+                        "error": "Database is locked, structural changes are restricted."
+                    },
+                    "status": "Failed"
+                }
+            }
+        ]
+    }
+]

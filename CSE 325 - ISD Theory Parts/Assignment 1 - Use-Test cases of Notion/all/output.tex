@@ -1,0 +1,25 @@
+
+    \documentclass{article}
+    \usepackage{hyperref}
+    \usepackage{longtable}
+    \begin{document}
+    \section{\textbf{Use Case: Rich Text Formatting}}
+\textbf{Scenario:} Users format their text with rich options adding links.\\
+\textbf{Actors:} User\\
+\textbf{Steps:}
+\begin{enumerate}
+\item User selects the text block.
+\item User applies the formatting options
+\item User checks the formatted result.
+\end{enumerate}
+\subsection{Test Cases}
+
+        \begin{longtable}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+        \hline
+        \textbf{Name} & \textbf{Description} \\
+        \hline
+        Valid Text Hyperlinking & Verify that a user can add a hyperlink to selected text. \\
+\hline
+Valid Markdown Syntax & Verify that correct markdown content is rendered successfully. \\
+\hline
+\end{longtable}\end{document}

@@ -1,0 +1,197 @@
+[
+    {
+        "usecase": {
+            "name": "Creating and Managing Relations",
+            "scenario": "User creates and manages relations between databases to link related data.",
+            "actors": "User",
+            "preconditions": [
+                "User has two databases created in Notion.",
+                "User has permissions to modify database properties."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User adds a new 'Relation' property.",
+                "User selects the target database to link.",
+                "User configures relation settings and saves."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a One-Way Relation",
+                "description": "Verify that the user can create a one-way relation between two databases.",
+                "input": {
+                    "action": "Create Relation",
+                    "sourceDatabase": "Projects",
+                    "targetDatabase": "Tasks"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "One-Way",
+                        "sourceDatabase": "Projects",
+                        "targetDatabase": "Tasks"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Two-Way Relation",
+                "description": "Verify that the user can create a two-way relation between two databases.",
+                "input": {
+                    "action": "Create Relation",
+                    "sourceDatabase": "Clients",
+                    "targetDatabase": "Meetings",
+                    "relationType": "Two-Way"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "Two-Way",
+                        "sourceDatabase": "Clients",
+                        "targetDatabase": "Meetings"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Relating a Database to Itself",
+                "description": "Verify that the user can create a relation within the same database to link related items.",
+                "input": {
+                    "action": "Create Self-Relation",
+                    "databaseName": "Tasks",
+                    "relationName": "Subtasks"
+                },
+                "expected": {
+                    "outcome": {
+                        "relationCreated": true,
+                        "relationType": "Self-Relation",
+                        "databaseName": "Tasks"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Creating and Managing Rollups",
+            "scenario": "User creates rollup properties to aggregate data from related databases.",
+            "actors": "User",
+            "preconditions": [
+                "User has related databases with numeric or date properties."
+            ],
+            "steps": [
+                "User navigates to the database settings.",
+                "User adds a new 'Rollup' property.",
+                "User selects the related property to roll up and chooses a calculation method.",
+                "User saves the rollup property settings."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a Sum Rollup",
+                "description": "Verify that the user can create a rollup property to sum numeric values from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Items Purchased",
+                    "propertyToRollup": "Price",
+                    "calculation": "Sum"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Sum",
+                        "result": 250.00
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Count Rollup",
+                "description": "Verify that the user can create a rollup property to count non-empty values from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Tasks",
+                    "propertyToRollup": "Status",
+                    "calculation": "Count Not Empty"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Count Not Empty",
+                        "result": 15
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating a Date Rollup",
+                "description": "Verify that the user can create a rollup property to find the latest date from related items.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Tasks",
+                    "propertyToRollup": "Due Date",
+                    "calculation": "Latest Date"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Latest Date",
+                        "result": "2024-12-31"
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Handling Invalid or Empty Rollup Values",
+            "scenario": "User tries to create rollup properties with invalid or empty values.",
+            "actors": "User",
+            "preconditions": [
+                "Related databases contain inconsistent or empty data."
+            ],
+            "steps": [
+                "User attempts to create a rollup with invalid data types or empty values."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Invalid Data Type for Rollup",
+                "description": "Verify that the system rejects rollup creation if the selected property is not compatible with the calculation.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Projects",
+                    "propertyToRollup": "Name",
+                    "calculation": "Sum"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": false,
+                        "error": "Invalid data type for selected calculation."
+                    },
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Empty Values in Rollup Property",
+                "description": "Verify that the system can handle rollup calculations with empty values correctly.",
+                "input": {
+                    "action": "Create Rollup",
+                    "relationProperty": "Items Purchased",
+                    "propertyToRollup": "Price",
+                    "calculation": "Count Empty"
+                },
+                "expected": {
+                    "outcome": {
+                        "rollupCreated": true,
+                        "calculationType": "Count Empty",
+                        "result": 3
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    }
+]

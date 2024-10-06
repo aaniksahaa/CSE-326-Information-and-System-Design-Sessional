@@ -1,0 +1,1566 @@
+[
+    [
+        {
+            "usecase": {
+                "name": "Creating a Database",
+                "scenario": "User creates a new database in Notion.",
+                "actors": "User",
+                "preconditions": [
+                    "User is logged into their Notion account.",
+                    "User has permission to create databases in the workspace."
+                ],
+                "steps": [
+                    "User navigates to a Notion page and types '/' to access the command menu.",
+                    "User selects a database type (e.g., table, board, list).",
+                    "User enters the name of the new database.",
+                    "User configures properties for the database."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a Table Database",
+                    "description": "Verify that the user can create a new table database.",
+                    "input": {
+                        "databaseType": "Table",
+                        "databaseName": "Project Tasks"
+                    },
+                    "expected": {
+                        "outcome": "Table database created successfully.",
+                        "status": "Created"
+                    }
+                },
+                {
+                    "name": "Creating a Database Without Name",
+                    "description": "Verify that the user cannot create a database without providing a name.",
+                    "input": {
+                        "databaseType": "List",
+                        "databaseName": ""
+                    },
+                    "expected": {
+                        "outcome": "Database creation failed due to missing name.",
+                        "status": "Not Created"
+                    }
+                },
+                {
+                    "name": "Creating a Database with Existing Name",
+                    "description": "Verify that the system handles duplicate database names within the same workspace.",
+                    "input": {
+                        "databaseType": "Board",
+                        "databaseName": "Existing Database"
+                    },
+                    "expected": {
+                        "outcome": "Warning about duplicate name or suffix added.",
+                        "status": "Created with Suffix or Not Created"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Customizing Database Views",
+                "scenario": "User customizes the views of a database to display data in different formats.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has editing permissions for the database."
+                ],
+                "steps": [
+                    "User navigates to the database and selects 'Add a view'.",
+                    "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                    "User customizes the view by adding filters, sorts, and grouping.",
+                    "User saves the view for future use."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a Kanban Board View",
+                    "description": "Verify that the user can create a board view to display tasks by status.",
+                    "input": {
+                        "viewType": "Board",
+                        "groupBy": "Status"
+                    },
+                    "expected": {
+                        "outcome": "Board view created successfully, grouping tasks by 'Status'.",
+                        "status": "View Created"
+                    }
+                },
+                {
+                    "name": "Applying Filters to Calendar View",
+                    "description": "Verify that the user can apply filters to show only events for a specific team in the calendar view.",
+                    "input": {
+                        "viewType": "Calendar",
+                        "filter": "Team = 'Marketing'"
+                    },
+                    "expected": {
+                        "outcome": "Calendar view shows only events for the Marketing team.",
+                        "status": "Filtered"
+                    }
+                },
+                {
+                    "name": "Sorting Table View by Priority",
+                    "description": "Verify that the user can sort tasks by priority in the table view.",
+                    "input": {
+                        "viewType": "Table",
+                        "sortBy": "Priority"
+                    },
+                    "expected": {
+                        "outcome": "Tasks sorted successfully by priority in the table view.",
+                        "status": "Sorted"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Managing Database Pages",
+                "scenario": "User manages individual pages within a database, adding, opening, and editing them.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to add and edit database pages."
+                ],
+                "steps": [
+                    "User navigates to the database and clicks on 'New' to add a new page.",
+                    "User enters the details for the new page and saves it.",
+                    "User opens an existing page to edit its content.",
+                    "User modifies properties or adds new content to the page."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a New Database Page",
+                    "description": "Verify that the user can create a new page within the database.",
+                    "input": {
+                        "pageName": "New Task",
+                        "properties": {
+                            "Status": "To-Do",
+                            "Due Date": "2024-10-20"
+                        }
+                    },
+                    "expected": {
+                        "outcome": "New page created successfully in the database.",
+                        "status": "Page Created"
+                    }
+                },
+                {
+                    "name": "Editing Existing Page Content",
+                    "description": "Verify that the user can edit an existing page's content in the database.",
+                    "input": {
+                        "pageName": "Task 1",
+                        "newContent": "Updated task details."
+                    },
+                    "expected": {
+                        "outcome": "Page content updated successfully.",
+                        "status": "Updated"
+                    }
+                },
+                {
+                    "name": "Deleting a Database Page",
+                    "description": "Verify that the user can delete a page from the database.",
+                    "input": {
+                        "pageName": "Old Task"
+                    },
+                    "expected": {
+                        "outcome": "Page deleted successfully from the database.",
+                        "status": "Deleted"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Collaborating in a Database",
+                "scenario": "User collaborates with team members in a shared database with specific permissions.",
+                "actors": "User",
+                "preconditions": [
+                    "Database is shared with team members.",
+                    "User has appropriate permissions for collaboration."
+                ],
+                "steps": [
+                    "User shares the database with team members with 'Can edit content' permissions.",
+                    "Team members add and edit pages within the database.",
+                    "User reviews changes made by team members and provides feedback in comments."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Granting Edit Permissions",
+                    "description": "Verify that the user can grant 'Can edit content' permissions to team members.",
+                    "input": {
+                        "teamMember": "member@example.com",
+                        "permissions": "Can edit content"
+                    },
+                    "expected": {
+                        "outcome": "Edit permissions granted successfully.",
+                        "status": "Permissions Granted"
+                    }
+                },
+                {
+                    "name": "Editing Content with Edit Permissions",
+                    "description": "Verify that team members with 'Can edit content' permissions can add and edit pages in the database.",
+                    "input": {
+                        "teamMember": "member@example.com",
+                        "action": "Edit page content"
+                    },
+                    "expected": {
+                        "outcome": "Team member successfully edited page content.",
+                        "status": "Content Edited"
+                    }
+                },
+                {
+                    "name": "Restricting Property Editing",
+                    "description": "Verify that team members cannot edit properties or views with 'Can edit content' permissions.",
+                    "input": {
+                        "teamMember": "member@example.com",
+                        "action": "Edit property"
+                    },
+                    "expected": {
+                        "outcome": "Action blocked due to insufficient permissions.",
+                        "status": "Not Allowed"
+                    }
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "usecase": {
+                "name": "Managing Database Lock",
+                "scenario": "User locks and unlocks a database to control structure changes.",
+                "actors": "User",
+                "preconditions": [
+                    "User is an admin with permissions to lock/unlock the database."
+                ],
+                "steps": [
+                    "User navigates to the database settings.",
+                    "User selects 'Lock/Unlock database' and confirms the action."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Lock and Unlock Database",
+                    "description": "Verify that the user can lock and unlock a database, preventing or allowing structural changes.",
+                    "input": {
+                        "action": "Lock/Unlock",
+                        "databaseName": "Project Tracker"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "databaseName": "Project Tracker",
+                            "locked": "true/false",
+                            "structureChangesAllowed": "false/true"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Lock Database Without Permission",
+                    "description": "Verify that users without permissions cannot lock/unlock the database.",
+                    "input": {
+                        "action": "Lock Database",
+                        "databaseName": "Project Tracker"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "databaseName": "Project Tracker",
+                            "locked": false,
+                            "error": "Insufficient permissions"
+                        },
+                        "status": "Failed"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Handling Changes in a Locked Database",
+                "scenario": "User attempts to change structure of a locked database.",
+                "actors": "User",
+                "preconditions": [
+                    "Database is locked; user has edit permissions for content only."
+                ],
+                "steps": [
+                    "User tries to modify properties or views of the locked database."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Edit Locked Database Properties or Views",
+                    "description": "Verify that users cannot modify properties, add views, or delete properties in a locked database.",
+                    "input": {
+                        "action": "Modify Structure",
+                        "changes": [
+                            "Edit Property",
+                            "Add View",
+                            "Delete Property"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "changesAllowed": false,
+                            "error": "Database is locked, structural changes are restricted."
+                        },
+                        "status": "Failed"
+                    }
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "usecase": {
+                "name": "Managing Database Properties",
+                "scenario": "User adds, edits, and deletes properties in a database.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the database."
+                ],
+                "steps": [
+                    "User navigates to database settings.",
+                    "User selects 'New property' to add a property.",
+                    "User edits or deletes properties as needed."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Adding a New Property",
+                    "description": "Verify that the user can add a new property with a valid name and type.",
+                    "input": {
+                        "action": "Add Property",
+                        "propertyName": "Priority",
+                        "propertyType": "Select"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "propertyAdded": true,
+                            "propertyName": "Priority",
+                            "propertyType": "Select"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Adding a Property with Empty Name",
+                    "description": "Verify that the user cannot add a property with an empty name.",
+                    "input": {
+                        "action": "Add Property",
+                        "propertyName": "",
+                        "propertyType": "Text"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "propertyAdded": false,
+                            "error": "Property name cannot be empty."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Deleting a Property",
+                    "description": "Verify that the user can delete a property.",
+                    "input": {
+                        "action": "Delete Property",
+                        "propertyName": "Priority"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "propertyDeleted": true,
+                            "propertyName": "Priority"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Editing Property Values",
+                "scenario": "User edits values for different property types in the database.",
+                "actors": "User",
+                "preconditions": [
+                    "Database has predefined properties."
+                ],
+                "steps": [
+                    "User selects a property cell in the database.",
+                    "User enters or updates the value for the property.",
+                    "User saves the changes."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Editing Text Property",
+                    "description": "Verify that the user can enter text into a text property.",
+                    "input": {
+                        "action": "Edit Property",
+                        "propertyType": "Text",
+                        "value": "Project description."
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueUpdated": true,
+                            "propertyType": "Text",
+                            "newValue": "Project description."
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Entering Invalid Number in Number Property",
+                    "description": "Verify that the user cannot enter non-numeric values in a number property.",
+                    "input": {
+                        "action": "Edit Property",
+                        "propertyType": "Number",
+                        "value": "ABC"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueUpdated": false,
+                            "propertyType": "Number",
+                            "error": "Invalid input; numbers only."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Clearing a Date Property",
+                    "description": "Verify that the user can clear the value in a date property.",
+                    "input": {
+                        "action": "Edit Property",
+                        "propertyType": "Date",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueUpdated": true,
+                            "propertyType": "Date",
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Handling Invalid and Empty Values for Properties",
+                "scenario": "User enters invalid or empty values for different property types in a database.",
+                "actors": "User",
+                "preconditions": [
+                    "Database has predefined properties for testing different data types."
+                ],
+                "steps": [
+                    "User selects a property cell in the database.",
+                    "User attempts to enter invalid or empty values for each property type.",
+                    "System validates and either accepts or rejects the input."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Entering Invalid Number",
+                    "description": "Verify that the system rejects non-numeric values for a number property.",
+                    "input": {
+                        "propertyType": "Number",
+                        "value": "abc123"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid input; numbers only."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Number Property",
+                    "description": "Verify that the system accepts an empty value for a number property.",
+                    "input": {
+                        "propertyType": "Number",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Email Format",
+                    "description": "Verify that the system rejects an invalid email format.",
+                    "input": {
+                        "propertyType": "Email",
+                        "value": "invalid-email"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid email format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Email Property",
+                    "description": "Verify that the system accepts an empty value for an email property.",
+                    "input": {
+                        "propertyType": "Email",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid URL Format",
+                    "description": "Verify that the system rejects an invalid URL format.",
+                    "input": {
+                        "propertyType": "URL",
+                        "value": "www.invalid-url"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid URL format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty URL Property",
+                    "description": "Verify that the system accepts an empty value for a URL property.",
+                    "input": {
+                        "propertyType": "URL",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Date Format",
+                    "description": "Verify that the system rejects an invalid date format.",
+                    "input": {
+                        "propertyType": "Date",
+                        "value": "32-12-2024"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid date format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Date Property",
+                    "description": "Verify that the system accepts an empty value for a date property.",
+                    "input": {
+                        "propertyType": "Date",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Phone Format",
+                    "description": "Verify that the system rejects an invalid phone number format.",
+                    "input": {
+                        "propertyType": "Phone",
+                        "value": "123-ABCD"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": false,
+                            "error": "Invalid phone number format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Phone Property",
+                    "description": "Verify that the system accepts an empty value for a phone property.",
+                    "input": {
+                        "propertyType": "Phone",
+                        "value": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueAccepted": true,
+                            "newValue": null
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "usecase": {
+                "name": "Creating and Managing Relations",
+                "scenario": "User creates and manages relations between databases to link related data.",
+                "actors": "User",
+                "preconditions": [
+                    "User has two databases created in Notion.",
+                    "User has permissions to modify database properties."
+                ],
+                "steps": [
+                    "User navigates to the database settings.",
+                    "User adds a new 'Relation' property.",
+                    "User selects the target database to link.",
+                    "User configures relation settings and saves."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a One-Way Relation",
+                    "description": "Verify that the user can create a one-way relation between two databases.",
+                    "input": {
+                        "action": "Create Relation",
+                        "sourceDatabase": "Projects",
+                        "targetDatabase": "Tasks"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "relationCreated": true,
+                            "relationType": "One-Way",
+                            "sourceDatabase": "Projects",
+                            "targetDatabase": "Tasks"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Creating a Two-Way Relation",
+                    "description": "Verify that the user can create a two-way relation between two databases.",
+                    "input": {
+                        "action": "Create Relation",
+                        "sourceDatabase": "Clients",
+                        "targetDatabase": "Meetings",
+                        "relationType": "Two-Way"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "relationCreated": true,
+                            "relationType": "Two-Way",
+                            "sourceDatabase": "Clients",
+                            "targetDatabase": "Meetings"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Relating a Database to Itself",
+                    "description": "Verify that the user can create a relation within the same database to link related items.",
+                    "input": {
+                        "action": "Create Self-Relation",
+                        "databaseName": "Tasks",
+                        "relationName": "Subtasks"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "relationCreated": true,
+                            "relationType": "Self-Relation",
+                            "databaseName": "Tasks"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Creating and Managing Rollups",
+                "scenario": "User creates rollup properties to aggregate data from related databases.",
+                "actors": "User",
+                "preconditions": [
+                    "User has related databases with numeric or date properties."
+                ],
+                "steps": [
+                    "User navigates to the database settings.",
+                    "User adds a new 'Rollup' property.",
+                    "User selects the related property to roll up and chooses a calculation method.",
+                    "User saves the rollup property settings."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a Sum Rollup",
+                    "description": "Verify that the user can create a rollup property to sum numeric values from related items.",
+                    "input": {
+                        "action": "Create Rollup",
+                        "relationProperty": "Items Purchased",
+                        "propertyToRollup": "Price",
+                        "calculation": "Sum"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rollupCreated": true,
+                            "calculationType": "Sum",
+                            "result": 250.0
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Creating a Count Rollup",
+                    "description": "Verify that the user can create a rollup property to count non-empty values from related items.",
+                    "input": {
+                        "action": "Create Rollup",
+                        "relationProperty": "Tasks",
+                        "propertyToRollup": "Status",
+                        "calculation": "Count Not Empty"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rollupCreated": true,
+                            "calculationType": "Count Not Empty",
+                            "result": 15
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Creating a Date Rollup",
+                    "description": "Verify that the user can create a rollup property to find the latest date from related items.",
+                    "input": {
+                        "action": "Create Rollup",
+                        "relationProperty": "Tasks",
+                        "propertyToRollup": "Due Date",
+                        "calculation": "Latest Date"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rollupCreated": true,
+                            "calculationType": "Latest Date",
+                            "result": "2024-12-31"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Handling Invalid or Empty Rollup Values",
+                "scenario": "User tries to create rollup properties with invalid or empty values.",
+                "actors": "User",
+                "preconditions": [
+                    "Related databases contain inconsistent or empty data."
+                ],
+                "steps": [
+                    "User attempts to create a rollup with invalid data types or empty values."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Invalid Data Type for Rollup",
+                    "description": "Verify that the system rejects rollup creation if the selected property is not compatible with the calculation.",
+                    "input": {
+                        "action": "Create Rollup",
+                        "relationProperty": "Projects",
+                        "propertyToRollup": "Name",
+                        "calculation": "Sum"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rollupCreated": false,
+                            "error": "Invalid data type for selected calculation."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Empty Values in Rollup Property",
+                    "description": "Verify that the system can handle rollup calculations with empty values correctly.",
+                    "input": {
+                        "action": "Create Rollup",
+                        "relationProperty": "Items Purchased",
+                        "propertyToRollup": "Price",
+                        "calculation": "Count Empty"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rollupCreated": true,
+                            "calculationType": "Count Empty",
+                            "result": 3
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "usecase": {
+                "name": "Managing Database Views",
+                "scenario": "User creates, customizes, and switches between different views in a database.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to create and edit views."
+                ],
+                "steps": [
+                    "User navigates to the database and selects 'Add a view'.",
+                    "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                    "User customizes the view settings (properties, filters, sorts).",
+                    "User switches between different views using the dropdown menu."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Creating a New View",
+                    "description": "Verify that the user can create a new view with customized settings.",
+                    "input": {
+                        "action": "Create View",
+                        "viewType": "List",
+                        "viewName": "Project List",
+                        "properties": [
+                            "Task",
+                            "Due Date",
+                            "Priority"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "viewCreated": true,
+                            "viewName": "Project List",
+                            "propertiesIncluded": [
+                                "Task",
+                                "Due Date",
+                                "Priority"
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Switching Between Views",
+                    "description": "Verify that the user can switch between different database views without errors.",
+                    "input": {
+                        "action": "Switch View",
+                        "views": [
+                            "Table",
+                            "Calendar"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "currentView": "Calendar",
+                            "previousView": "Table"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Editing View Components",
+                    "description": "Verify that the user can edit existing view components such as layout and properties.",
+                    "input": {
+                        "action": "Edit View",
+                        "viewName": "Kanban Board",
+                        "properties": [
+                            "Task",
+                            "Status",
+                            "Assignee"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "viewName": "Kanban Board",
+                            "propertiesUpdated": [
+                                "Task",
+                                "Status",
+                                "Assignee"
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Applying Filters to a Database",
+                "scenario": "User applies filters to a database view to display specific data.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to edit filters in the database."
+                ],
+                "steps": [
+                    "User navigates to the database and clicks 'Filter'.",
+                    "User selects a property and sets criteria for filtering.",
+                    "User adds additional filters or groups using 'AND'/'OR' logic.",
+                    "User saves the filter configuration."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Applying a Simple Filter",
+                    "description": "Verify that the user can apply a simple filter based on a single property.",
+                    "input": {
+                        "action": "Apply Filter",
+                        "filterProperty": "Status",
+                        "criteria": "Completed"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "filteredItems": [
+                                "Task 1",
+                                "Task 3"
+                            ],
+                            "filterProperty": "Status",
+                            "criteria": "Completed"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Creating an Advanced Filter",
+                    "description": "Verify that the user can create an advanced filter using 'AND'/'OR' logic.",
+                    "input": {
+                        "action": "Apply Filter",
+                        "filters": [
+                            {
+                                "property": "Priority",
+                                "criteria": "High",
+                                "logic": "AND"
+                            },
+                            {
+                                "property": "Due Date",
+                                "criteria": "Next 7 Days",
+                                "logic": "OR"
+                            }
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "filteredItems": [
+                                "Task 2",
+                                "Task 4"
+                            ],
+                            "filtersApplied": [
+                                {
+                                    "property": "Priority",
+                                    "criteria": "High"
+                                },
+                                {
+                                    "property": "Due Date",
+                                    "criteria": "Next 7 Days"
+                                }
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Removing a Filter",
+                    "description": "Verify that the user can remove an applied filter from the database view.",
+                    "input": {
+                        "action": "Remove Filter",
+                        "filterProperty": "Priority"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "filterRemoved": true,
+                            "filterProperty": "Priority",
+                            "allItemsDisplayed": true
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Sorting Items in a Database",
+                "scenario": "User sorts database items based on a specific property in ascending or descending order.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to sort items in the database."
+                ],
+                "steps": [
+                    "User navigates to the database and clicks 'Sort'.",
+                    "User selects a property and chooses ascending or descending order.",
+                    "User adds multiple sorts if needed and adjusts their order.",
+                    "User saves the sort configuration."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Sorting by Due Date",
+                    "description": "Verify that the user can sort items by 'Due Date' in ascending order.",
+                    "input": {
+                        "action": "Sort",
+                        "sortProperty": "Due Date",
+                        "order": "Ascending"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "sortedItems": [
+                                "Task 1",
+                                "Task 2",
+                                "Task 3"
+                            ],
+                            "sortProperty": "Due Date",
+                            "order": "Ascending"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Sorting by Priority and Status",
+                    "description": "Verify that the user can sort items by 'Priority' and 'Status' with different orders.",
+                    "input": {
+                        "action": "Sort",
+                        "sorts": [
+                            {
+                                "property": "Priority",
+                                "order": "Descending"
+                            },
+                            {
+                                "property": "Status",
+                                "order": "Ascending"
+                            }
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "sortedItems": [
+                                "Task 4",
+                                "Task 1",
+                                "Task 3"
+                            ],
+                            "sortsApplied": [
+                                {
+                                    "property": "Priority",
+                                    "order": "Descending"
+                                },
+                                {
+                                    "property": "Status",
+                                    "order": "Ascending"
+                                }
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Removing a Sort",
+                    "description": "Verify that the user can remove an applied sort from the database view.",
+                    "input": {
+                        "action": "Remove Sort",
+                        "sortProperty": "Priority"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "sortRemoved": true,
+                            "sortProperty": "Priority",
+                            "defaultOrderRestored": true
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Grouping Items in a Database",
+                "scenario": "User groups database items by a specific property to organize data visually.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to group items in the database."
+                ],
+                "steps": [
+                    "User navigates to the database and clicks 'Group'.",
+                    "User selects a property to group by (e.g., 'Status').",
+                    "User arranges the groups in a desired order.",
+                    "User saves the group configuration."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Grouping by Status",
+                    "description": "Verify that the user can group items by 'Status' in a board view.",
+                    "input": {
+                        "action": "Group",
+                        "groupProperty": "Status"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "groupedItems": [
+                                "Task 1",
+                                "Task 2"
+                            ],
+                            "groupProperty": "Status"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Hiding Empty Groups",
+                    "description": "Verify that the user can hide groups without items in the database view.",
+                    "input": {
+                        "action": "Update Group",
+                        "hideEmptyGroups": true
+                    },
+                    "expected": {
+                        "outcome": {
+                            "emptyGroupsHidden": true,
+                            "visibleGroups": [
+                                "Task 1",
+                                "Task 2"
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Removing Grouping",
+                    "description": "Verify that the user can remove grouping from the database view.",
+                    "input": {
+                        "action": "Remove Group",
+                        "groupProperty": "None"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "groupingRemoved": true,
+                            "allItemsDisplayed": true
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Searching a Database",
+                "scenario": "User searches for specific items within a database using keywords.",
+                "actors": "User",
+                "preconditions": [
+                    "User has a database created in Notion.",
+                    "User has permissions to search within the database."
+                ],
+                "steps": [
+                    "User navigates to the database and clicks the search icon.",
+                    "User enters keywords related to page titles or properties.",
+                    "User reviews the search results displayed in real-time."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Searching by Keyword",
+                    "description": "Verify that the user can search for items using a keyword.",
+                    "input": {
+                        "action": "Search",
+                        "keyword": "Project"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "itemsFound": [
+                                "Project A",
+                                "Project B"
+                            ],
+                            "keyword": "Project"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "No Matching Results",
+                    "description": "Verify that no items are displayed when there are no matching results.",
+                    "input": {
+                        "action": "Search",
+                        "keyword": "Nonexistent"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "itemsFound": [],
+                            "keyword": "Nonexistent"
+                        },
+                        "status": "No Results"
+                    }
+                },
+                {
+                    "name": "Clearing Search",
+                    "description": "Verify that the user can clear the search input to return to the default view.",
+                    "input": {
+                        "action": "Clear Search"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "searchCleared": true,
+                            "defaultViewRestored": true
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        }
+    ],
+    [
+        {
+            "usecase": {
+                "name": "Managing Data in Table View",
+                "scenario": "User creates, modifies, and deletes rows and columns in a table view.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the table view.",
+                    "Table view is already created."
+                ],
+                "steps": [
+                    "User navigates to the database table view.",
+                    "User adds, edits, or deletes rows and columns as needed."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Adding Rows",
+                    "description": "Verify that the user can add a new row to the table with all columns populated.",
+                    "input": {
+                        "action": "Add Row",
+                        "columns": [
+                            "Task",
+                            "Due Date",
+                            "Priority"
+                        ],
+                        "values": [
+                            "New Task",
+                            "2024-10-10",
+                            "High"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "rowAdded": true,
+                            "rowValues": [
+                                "New Task",
+                                "2024-10-10",
+                                "High"
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Deleting Columns",
+                    "description": "Verify that the user can delete a column and all associated data is removed.",
+                    "input": {
+                        "action": "Delete Column",
+                        "columnName": "Priority"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "columnDeleted": true,
+                            "columnName": "Priority",
+                            "dataRemoved": true
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Empty Values",
+                    "description": "Verify that leaving a cell empty in a required column triggers a validation message.",
+                    "input": {
+                        "action": "Edit Cell",
+                        "columnName": "Task",
+                        "newValue": ""
+                    },
+                    "expected": {
+                        "outcome": {
+                            "validationMessage": "Task cannot be empty."
+                        },
+                        "status": "Failed"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Organizing Simple Data in List View",
+                "scenario": "User organizes notes or articles using list view with minimal properties.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the list view.",
+                    "List view is already created."
+                ],
+                "steps": [
+                    "User navigates to the database list view.",
+                    "User adds, edits, or deletes list items as needed."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Adding Items",
+                    "description": "Verify that the user can add a new item with minimal properties like title and date.",
+                    "input": {
+                        "action": "Add Item",
+                        "properties": [
+                            "Title",
+                            "Date"
+                        ],
+                        "values": [
+                            "New Note",
+                            "2024-10-15"
+                        ]
+                    },
+                    "expected": {
+                        "outcome": {
+                            "itemAdded": true,
+                            "itemValues": [
+                                "New Note",
+                                "2024-10-15"
+                            ]
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Date",
+                    "description": "Verify that entering an invalid date format shows an error message.",
+                    "input": {
+                        "action": "Edit Property",
+                        "propertyType": "Date",
+                        "value": "15-October-2024"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "valueUpdated": false,
+                            "error": "Invalid date format."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Editing Item Title",
+                    "description": "Verify that the user can successfully edit the title of a list item.",
+                    "input": {
+                        "action": "Edit Title",
+                        "newValue": "Updated Note Title"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "titleUpdated": true,
+                            "newTitle": "Updated Note Title"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Visualizing Workflows in Board View",
+                "scenario": "User creates boards to manage project stages or tasks.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the board view.",
+                    "Board view is already created."
+                ],
+                "steps": [
+                    "User navigates to the database board view.",
+                    "User moves items between columns to represent changes in workflow stages."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Moving Items Across Stages",
+                    "description": "Verify that the user can drag and drop items between different stages (columns).",
+                    "input": {
+                        "action": "Move Item",
+                        "itemName": "Task 1",
+                        "fromColumn": "To Do",
+                        "toColumn": "In Progress"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "itemMoved": true,
+                            "itemName": "Task 1",
+                            "newColumn": "In Progress"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Stage Name",
+                    "description": "Verify that the system rejects a stage name with special characters.",
+                    "input": {
+                        "action": "Add Column",
+                        "columnName": "In-Progress#1"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "columnAdded": false,
+                            "error": "Invalid column name; special characters are not allowed."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Archiving Columns",
+                    "description": "Verify that the user can hide or archive columns with completed tasks.",
+                    "input": {
+                        "action": "Archive Column",
+                        "columnName": "Completed"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "columnArchived": true,
+                            "columnName": "Completed"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Managing Events in Calendar View",
+                "scenario": "User schedules and views events on a calendar.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the calendar view.",
+                    "Calendar view is already created."
+                ],
+                "steps": [
+                    "User navigates to the database calendar view.",
+                    "User adds, edits, or deletes events as needed."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Adding Multi-Day Events",
+                    "description": "Verify that the user can add events that span multiple days.",
+                    "input": {
+                        "action": "Add Event",
+                        "eventTitle": "Project Kickoff",
+                        "startDate": "2024-10-10",
+                        "endDate": "2024-10-12"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "eventAdded": true,
+                            "eventTitle": "Project Kickoff",
+                            "startDate": "2024-10-10",
+                            "endDate": "2024-10-12"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Invalid Date Range",
+                    "description": "Verify that entering a start date later than the end date triggers an error.",
+                    "input": {
+                        "action": "Add Event",
+                        "eventTitle": "Invalid Event",
+                        "startDate": "2024-10-15",
+                        "endDate": "2024-10-12"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "eventAdded": false,
+                            "error": "Start date cannot be later than end date."
+                        },
+                        "status": "Failed"
+                    }
+                },
+                {
+                    "name": "Changing Calendar Start Day",
+                    "description": "Verify that changing the week start day updates the view correctly.",
+                    "input": {
+                        "action": "Change Start Day",
+                        "newStartDay": "Monday"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "startDayChanged": true,
+                            "newStartDay": "Monday"
+                        },
+                        "status": "Success"
+                    }
+                }
+            ]
+        },
+        {
+            "usecase": {
+                "name": "Assigning Unique Identifiers to Database Items",
+                "scenario": "User assigns unique identifiers to each item for easy reference.",
+                "actors": "User",
+                "preconditions": [
+                    "User has permissions to modify the database.",
+                    "Database has a unique ID property set up."
+                ],
+                "steps": [
+                    "User navigates to the database settings.",
+                    "User configures or updates the unique ID format for each new item."
+                ]
+            },
+            "testcases": [
+                {
+                    "name": "Generating Unique ID",
+                    "description": "Verify that each new item in the database is assigned a unique identifier automatically.",
+                    "input": {
+                        "action": "Add Item",
+                        "itemTitle": "New Task"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "itemAdded": true,
+                            "itemTitle": "New Task",
+                            "uniqueIDGenerated": true
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Custom ID Format",
+                    "description": "Verify that the user can set a custom format for unique IDs (e.g., prefix or suffix).",
+                    "input": {
+                        "action": "Configure Unique ID",
+                        "format": "Task-####"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "formatApplied": true,
+                            "exampleID": "Task-0001"
+                        },
+                        "status": "Success"
+                    }
+                },
+                {
+                    "name": "Duplicate ID Error",
+                    "description": "Verify that trying to manually set a duplicate ID triggers an error.",
+                    "input": {
+                        "action": "Set Unique ID",
+                        "itemTitle": "Task 1",
+                        "uniqueID": "ID-001"
+                    },
+                    "expected": {
+                        "outcome": {
+                            "IDSet": false,
+                            "error": "Duplicate unique ID detected."
+                        },
+                        "status": "Failed"
+                    }
+                }
+            ]
+        }
+    ]
+]

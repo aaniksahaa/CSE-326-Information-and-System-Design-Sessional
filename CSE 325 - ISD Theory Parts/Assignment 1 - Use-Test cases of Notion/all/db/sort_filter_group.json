@@ -1,0 +1,343 @@
+[
+    {
+        "usecase": {
+            "name": "Managing Database Views",
+            "scenario": "User creates, customizes, and switches between different views in a database.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to create and edit views."
+            ],
+            "steps": [
+                "User navigates to the database and selects 'Add a view'.",
+                "User chooses a view type such as 'Table', 'Board', 'Calendar', etc.",
+                "User customizes the view settings (properties, filters, sorts).",
+                "User switches between different views using the dropdown menu."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Creating a New View",
+                "description": "Verify that the user can create a new view with customized settings.",
+                "input": {
+                    "action": "Create View",
+                    "viewType": "List",
+                    "viewName": "Project List",
+                    "properties": ["Task", "Due Date", "Priority"]
+                },
+                "expected": {
+                    "outcome": {
+                        "viewCreated": true,
+                        "viewName": "Project List",
+                        "propertiesIncluded": ["Task", "Due Date", "Priority"]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Switching Between Views",
+                "description": "Verify that the user can switch between different database views without errors.",
+                "input": {
+                    "action": "Switch View",
+                    "views": ["Table", "Calendar"]
+                },
+                "expected": {
+                    "outcome": {
+                        "currentView": "Calendar",
+                        "previousView": "Table"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Editing View Components",
+                "description": "Verify that the user can edit existing view components such as layout and properties.",
+                "input": {
+                    "action": "Edit View",
+                    "viewName": "Kanban Board",
+                    "properties": ["Task", "Status", "Assignee"]
+                },
+                "expected": {
+                    "outcome": {
+                        "viewName": "Kanban Board",
+                        "propertiesUpdated": ["Task", "Status", "Assignee"]
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Applying Filters to a Database",
+            "scenario": "User applies filters to a database view to display specific data.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to edit filters in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Filter'.",
+                "User selects a property and sets criteria for filtering.",
+                "User adds additional filters or groups using 'AND'/'OR' logic.",
+                "User saves the filter configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Applying a Simple Filter",
+                "description": "Verify that the user can apply a simple filter based on a single property.",
+                "input": {
+                    "action": "Apply Filter",
+                    "filterProperty": "Status",
+                    "criteria": "Completed"
+                },
+                "expected": {
+                    "outcome": {
+                        "filteredItems": ["Task 1", "Task 3"],
+                        "filterProperty": "Status",
+                        "criteria": "Completed"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Creating an Advanced Filter",
+                "description": "Verify that the user can create an advanced filter using 'AND'/'OR' logic.",
+                "input": {
+                    "action": "Apply Filter",
+                    "filters": [
+                        {"property": "Priority", "criteria": "High", "logic": "AND"},
+                        {"property": "Due Date", "criteria": "Next 7 Days", "logic": "OR"}
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "filteredItems": ["Task 2", "Task 4"],
+                        "filtersApplied": [
+                            {"property": "Priority", "criteria": "High"},
+                            {"property": "Due Date", "criteria": "Next 7 Days"}
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing a Filter",
+                "description": "Verify that the user can remove an applied filter from the database view.",
+                "input": {
+                    "action": "Remove Filter",
+                    "filterProperty": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "filterRemoved": true,
+                        "filterProperty": "Priority",
+                        "allItemsDisplayed": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Sorting Items in a Database",
+            "scenario": "User sorts database items based on a specific property in ascending or descending order.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to sort items in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Sort'.",
+                "User selects a property and chooses ascending or descending order.",
+                "User adds multiple sorts if needed and adjusts their order.",
+                "User saves the sort configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Sorting by Due Date",
+                "description": "Verify that the user can sort items by 'Due Date' in ascending order.",
+                "input": {
+                    "action": "Sort",
+                    "sortProperty": "Due Date",
+                    "order": "Ascending"
+                },
+                "expected": {
+                    "outcome": {
+                        "sortedItems": ["Task 1", "Task 2", "Task 3"],
+                        "sortProperty": "Due Date",
+                        "order": "Ascending"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Sorting by Priority and Status",
+                "description": "Verify that the user can sort items by 'Priority' and 'Status' with different orders.",
+                "input": {
+                    "action": "Sort",
+                    "sorts": [
+                        {"property": "Priority", "order": "Descending"},
+                        {"property": "Status", "order": "Ascending"}
+                    ]
+                },
+                "expected": {
+                    "outcome": {
+                        "sortedItems": ["Task 4", "Task 1", "Task 3"],
+                        "sortsApplied": [
+                            {"property": "Priority", "order": "Descending"},
+                            {"property": "Status", "order": "Ascending"}
+                        ]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing a Sort",
+                "description": "Verify that the user can remove an applied sort from the database view.",
+                "input": {
+                    "action": "Remove Sort",
+                    "sortProperty": "Priority"
+                },
+                "expected": {
+                    "outcome": {
+                        "sortRemoved": true,
+                        "sortProperty": "Priority",
+                        "defaultOrderRestored": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+   
+ {
+        "usecase": {
+            "name": "Grouping Items in a Database",
+            "scenario": "User groups database items by a specific property to organize data visually.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to group items in the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks 'Group'.",
+                "User selects a property to group by (e.g., 'Status').",
+                "User arranges the groups in a desired order.",
+                "User saves the group configuration."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Grouping by Status",
+                "description": "Verify that the user can group items by 'Status' in a board view.",
+                "input": {
+                    "action": "Group",
+                    "groupProperty": "Status"
+                },
+                "expected": {
+                    "outcome": {
+                        "groupedItems": ["Task 1", "Task 2"],
+                        "groupProperty": "Status"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Hiding Empty Groups",
+                "description": "Verify that the user can hide groups without items in the database view.",
+                "input": {
+                    "action": "Update Group",
+                    "hideEmptyGroups": true
+                },
+                "expected": {
+                    "outcome": {
+                        "emptyGroupsHidden": true,
+                        "visibleGroups": ["Task 1", "Task 2"]
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "Removing Grouping",
+                "description": "Verify that the user can remove grouping from the database view.",
+                "input": {
+                    "action": "Remove Group",
+                    "groupProperty": "None"
+                },
+                "expected": {
+                    "outcome": {
+                        "groupingRemoved": true,
+                        "allItemsDisplayed": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Searching a Database",
+            "scenario": "User searches for specific items within a database using keywords.",
+            "actors": "User",
+            "preconditions": [
+                "User has a database created in Notion.",
+                "User has permissions to search within the database."
+            ],
+            "steps": [
+                "User navigates to the database and clicks the search icon.",
+                "User enters keywords related to page titles or properties.",
+                "User reviews the search results displayed in real-time."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Searching by Keyword",
+                "description": "Verify that the user can search for items using a keyword.",
+                "input": {
+                    "action": "Search",
+                    "keyword": "Project"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemsFound": ["Project A", "Project B"],
+                        "keyword": "Project"
+                    },
+                    "status": "Success"
+                }
+            },
+            {
+                "name": "No Matching Results",
+                "description": "Verify that no items are displayed when there are no matching results.",
+                "input": {
+                    "action": "Search",
+                    "keyword": "Nonexistent"
+                },
+                "expected": {
+                    "outcome": {
+                        "itemsFound": [],
+                        "keyword": "Nonexistent"
+                    },
+                    "status": "No Results"
+                }
+            },
+            {
+                "name": "Clearing Search",
+                "description": "Verify that the user can clear the search input to return to the default view.",
+                "input": {
+                    "action": "Clear Search"
+                },
+                "expected": {
+                    "outcome": {
+                        "searchCleared": true,
+                        "defaultViewRestored": true
+                    },
+                    "status": "Success"
+                }
+            }
+        ]
+    }
+]
