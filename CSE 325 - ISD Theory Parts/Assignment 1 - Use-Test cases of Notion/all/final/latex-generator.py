@@ -14,9 +14,7 @@ filenames = [
 
 total_data = []
 
-prefix = r"""
-
-\documentclass{article}
+prefix = r"""\documentclass{article}
 \usepackage[a4paper, margin=2cm]{geometry}
 \usepackage{hyperref}
 \usepackage{longtable}
