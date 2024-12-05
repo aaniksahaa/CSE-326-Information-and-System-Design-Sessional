@@ -23,11 +23,10 @@
                 },
                 "expected": {
                     "outcome": "Processing successful",
-                    "components": {
+                    "componentsExtracted": {
                         "text": true,
                         "images": true,
-                        "tables": true,
-                        "qa_pairs": true
+                        "tables": true
                     },
                     "status": "Completed"
                 }
@@ -225,11 +224,13 @@
                 "description": "Verify processing of valid theoretical question-answer pairs",
                 "input": {
                     "qa_pair": {
-                        "question": "What is Newton's First Law?",
-                        "answer": "An object remains at rest or in motion unless acted upon by an external force",
+                        "question": "What is the unit of acceleration?",
+                        "choices": ["m/s", "m/s²", "m", "m²/s²"],
+                        "correctOptionIndex": 1,
                         "type": "Theoretical",
-                        "explanation": "Basic principle of classical mechanics",
-                        "hints": ["Think about inertia"]
+                        "difficultyRating": "1",
+                        "explanation": "Acceleration means a = (v-u)/t, so calculating from this, we get the the answer.",
+                        "hints": ["Think about acceleration formulae"]
                     },
                     "moderator_comment": null
                 },
@@ -245,7 +246,8 @@
                 "input": {
                     "qa_pair": {
                         "question": "Calculate the force needed to accelerate a 2kg mass at 5 m/s²",
-                        "answer": "10 N",
+                        "choices": ["5 N", "7 N", "10 N", "15 N"],
+                        "correctOptionIndex": 2,
                         "type": "Problem Solving",
                         "explanation": "Using F = ma, F = 2 * 5 = 10N",
                         "hints": ["Use Newton's Second Law", "F = ma"]
@@ -264,15 +266,17 @@
                 "input": {
                     "qa_pair": {
                         "question": "Calculate the force needed to accelerate a 2 second mass at 5 ft",
-                        "answer": "10 N",
+                        "choices": ["5 m", "7 m", "10 m", "15 m"],
+                        "correctOptionIndex": 2,
                         "type": "Problem Solving",
                         "explanation": "Using F = ma, F = 2 * 5 = 10N",
                         "hints": ["Use Newton's Second Law", "F = ma"]
                     },
                     "moderator_comment": "Inconsistent units",
                     "moderator_edit": {
-                        "question": "Calculate the force needed to accelerate a 2 2kg mass at 5 m/s²t",
-                        "answer": "10 N",
+                        "question": "Calculate the force needed to accelerate a 2kg mass at 5 m/s²",
+                        "choices": ["5 N", "7 N", "10 N", "15 N"],
+                        "correctOptionIndex": 2,
                         "type": "Problem Solving",
                         "explanation": "Using F = ma, F = 2 * 5 = 10N",
                         "hints": ["Use Newton's Second Law", "F = ma"]

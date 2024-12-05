@@ -3,6 +3,7 @@
         "usecase": {
             "name": "Creation of New Workspace",
             "scenario": "User creates a new workspace from their account.",
+            "author_student_id": "2005023",
             "actors": "User",
             "preconditions": [
                 "User is logged into their Notion account.",

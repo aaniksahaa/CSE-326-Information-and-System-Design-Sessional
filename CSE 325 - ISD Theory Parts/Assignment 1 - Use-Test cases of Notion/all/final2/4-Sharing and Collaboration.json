@@ -1,0 +1,687 @@
+[
+    {
+        "usecase": {
+            "name": "Create New Teamspace",
+            "scenario": "A user creates a teamspace and invites other members by mentioning their emails. Those who accept the invitations become members of the teamspace.",
+            "actors": "User",
+            "preconditions": "User is logged in to Notion and has at least one workspace in Notion.",
+            "steps": [
+                "User provides name of the new Teamspace",
+                "User provides icon of the new Teamspace",
+                "User provides emails of other invited members"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Teamspace Creation",
+                "description": "Verify that a user can successfully create a teamspace when he provides valid information.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation successful",
+                    "status": "Created"
+                }
+            },
+            {
+                "name": "Empty Teamspace Name",
+                "description": "Verify that the system handles the case where a user provides empty teamspace name.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invalid Icon Type",
+                "description": "Verify that the system rejects unsupported file types for the teamspace icon.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.txt",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Too Many Invited Emails",
+                "description": "Verify that the system prevents a user under Free plan from inviting more than 10 guests in a single teamspace creation.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "kowshik.2001@gmail.com",
+                        "jane.doe@gmail.com",
+                        "john.doe@gmail.com",
+                        "alice.smith@gmail.com",
+                        "bob.brown@gmail.com",
+                        "amim2.2001@gmail.com",
+                        "kowshik3.2001@gmail.com",
+                        "jane4.doe@gmail.com",
+                        "john6.doe@gmail.com",
+                        "alice7.smith@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invalid Email Format",
+                "description": "Verify that the system detects and rejects invalid email formats.",
+                "input": {
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "invalid-email", 
+                        "kowshik.2001@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Invitaion to an Email without Notion",
+                "description": "Verify that the system detects when the given email address has no associated Notion account.",
+                "input": {
+                    "teamspaceName": "Coding Ninjas",
+                    "teamspaceIcon": "favicon.png",
+                    "invitedEmails": [
+                        "amim.2001@gmail.com",
+                        "non-existent-2001@gmail.com", 
+                        "kowshik.2001@gmail.com",
+                        "2005001@ugrad.cse.buet.ac.bd"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Teamspace creation failed",
+                    "status": "Aborted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Manage Teamspace Permissions",
+            "scenario": "A teamspace owner may change the permission levels of any other owner or member.A member may only change the permission levels of other members.",
+            "actors": "Teamspace Owner, Teamspace Member",
+            "preconditions": "The teamspace is created and members have joined successfully.",
+            "steps": [
+                "Teamspace owner changes the permission level of other members to one of 'Full Access', 'Çan View', 'Can Edit' or 'Can Comment'",
+                "Alternatively, Teamspace owner upgrades another member to owner.",
+                "Alternatively, Teamspace owner downgrades another owner to member."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Consistent Permissions",
+                "description": "Verify that consistent teamspace permissions can be set properly.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Owner",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permissions changed successfully",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Invalid Permission Level",
+                "description": "Verify that the permission level falls under one of the 4 categories.",
+                "input": {
+                    "memberPermissionLevel": "No Access",
+                    "memberPermissionLevelSetBy": "Teamspace Owner",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Permission Level Update by Member",
+                "description": "Verify that a general member cannot alter the permission levels of all members.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Member",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Owner"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            },
+            {
+                "name": "Downgrade of Owner by Member",
+                "description": "Verify that a general member cannot downgrade a owner to a general member.",
+                "input": {
+                    "memberPermissionLevel": "Full Access",
+                    "memberPermissionLevelSetBy": "Teamspace Member",
+                    "previousPrivilege": "Teamspace Owner",
+                    "newPrivilege": "Teamspace Member",
+                    "privilegeUpdatedBy": "Teamspace Member"
+                },
+                "expected": {
+                    "outcome": "Permission changes refused",
+                    "status": "Rejected"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Share Page with Individuals",
+            "scenario": "A user shares his page with other members or groups while specifying the access levels of each.",
+            "actors": "User",
+            "preconditions": "The user is logged in and the page is created.",
+            "steps": [
+                "User selects a page from his workspace.",
+                "User selects names of members or groups to share with.",
+                "User sets permission levels of each of the members or groups."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Sharing",
+                "description": "Verify that the page is shared properly when invites members and groups are valid.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "Full Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Sharing with only Members",
+                "description": "Verify that the page sharing is successful when only members are added and no groups are added.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "Full Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": []
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Sharing with only Groups",
+                "description": "Verify that the page sharing is successful when only groups are added and no individual members are added.",
+                "input": {
+                    "invitedMembers": [],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page shared successfully",
+                    "status": "Shared"
+                }
+            },
+            {
+                "name": "Empty Sharing Specification",
+                "description": "Verify that the page sharing is rejected when no members or groups are selected.",
+                "input": {
+                    "invitedMembers": [],
+                    "invitedGroups": []
+                },
+                "expected": {
+                    "outcome": "Page sharing failed.",
+                    "status": "Failed"
+                }
+            },
+            {
+                "name": "Invalid Permission Category",
+                "description": "Verify that the page sharing is rejected when the chosen permission category does not fall under the allowed 4 types of permissions.",
+                "input": {
+                    "invitedMembers": [
+                        {
+                            "name": "Amim",
+                            "permission": "No Access"
+                        },
+                        {
+                            "name": "Jahin",
+                            "permission": "Can Edit"
+                        }
+                    ],
+                    "invitedGroups": [
+                        {
+                            "name": "CTF Club Memebers",
+                            "permission": "Can View"
+                        }
+                    ]
+                },
+                "expected": {
+                    "outcome": "Page sharing failed.",
+                    "status": "Failed"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Publish Page as Website",
+            "scenario": "A user publishes a page as a website that if publicly available. The user selects domain name, SEO and link settings based on his subscription plan.",
+            "actors": "User",
+            "preconditions": "The user is logged in and the page is created.",
+            "steps": [
+                "User opens a page from his workspace.",
+                "User proceeds to publish as Website option.",
+                "User approves the proposed randomly generated website domain.",
+                "Alternatively, the user may choose his own domain if he is in a PLus subscription",
+                "The user chooses SEO and LInk Expiration related preferences and finalizes publishing."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Publishing",
+                "description": "Verify that the website is created properly when the user follows a valid process.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "abc-234-rt.notion.site",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website published successfully",
+                    "status": "Published"
+                }
+            },
+            {
+                "name": "Choosing Custom Domain in Free Plan",
+                "description": "Verify that the cannot choose a custom domain when he is in a Free plan.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website publish canceled",
+                    "status": "Aborted"
+                }
+            },
+            {
+                "name": "Choosing Custom Domain in Plus Plan",
+                "description": "Verify that the can choose a custom domain when he is in a Plus subscription plan.",
+                "input": {
+                    "subscriptionPlan": "PLus",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "None"
+                },
+                "expected": {
+                    "outcome": "Website published successfully",
+                    "status": "Published"
+                }
+            },
+            {
+                "name": "Specifying Link Expiry Period in Free Plan",
+                "description": "Verify that the cannot specify a link expiry period when he is in a Free plan.",
+                "input": {
+                    "subscriptionPlan": "Free",
+                    "domain": "mydomain.com",
+                    "SEOindexing": "On",
+                    "Link Expiration": "15 days"
+                },
+                "expected": {
+                    "outcome": "Website publish canceled",
+                    "status": "Aborted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Collaborate in real-time",
+            "scenario": "One or more than one user collaborates on a page content in real-time. The system approves or rejects the edits based on consistency.",
+            "actors": "User",
+            "preconditions": "The page is shared with the user(s).",
+            "steps": [
+                "User opens tha shared page.",
+                "User selects a particular block of the page.",
+                "User edits the content of the selected block."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Editing",
+                "description": "Verify that the editing is successful when all editors have enough privilege and they are not simultaneously modifying the same block.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Full Access"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block B"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Content Edited successfully",
+                    "status": "Saved"
+                }
+            },
+            {
+                "name": "Insufficient Permission",          
+                "description": "Verify that the editing is discarded when some editor has insufficient access privilege.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Can View"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block B"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Edit discarded",
+                    "status": "Unchanged"
+                }
+            },
+            {
+                "name": "Simultaneous Editing",
+                "description": "Verify that the editing is discarded when more than one editor are trying to simultaneously modify the same block.",
+                "input": {
+                    "editors": [
+                        {
+                            "name": "Amim",
+                            "permissionLevel": "Can Edit"
+                        },
+                        {
+                            "name": "Muhit",
+                            "permissionLevel": "Full Access"
+                        }
+                    ],
+                    "editedBlocks": [
+                        "Block A",
+                        "Block A"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Edit discarded",
+                    "status": "Unchanged"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Add comments to Page Content",
+            "scenario": "On the comment portion of a page block, user writes a text and/or mentions another persons/guests/pages.",
+            "actors": "User",
+            "preconditions": "User is logged in and has a privilege level equal or higher than 'Can Comment'.",
+            "steps": [
+                "User selects a particular block of the page.",
+                "User writes a textual comment.",
+                "Alternatively, user may mention other persons or groups or pages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Comment",
+                "description": "Verify that the comment is successfully posted when all parameters are correct.",
+                "input": {
+                    "commentor": "Amim",
+                    "commentText": "Done!",
+                    "mentionedPersons": [
+                        "Muhit",
+                        "Kowshik"
+                    ],
+                    "mentionedGroups": [
+                        "CSE-325"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Comment posted and mentioned persons and groups notified successfully",
+                    "status": "Posted"
+                }
+            },
+            {
+                "name": "Self Mentioning",
+                "description": "Verify that the comment is successfully posted without sending notification when a user mentions himself/herself.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "Done!",
+                    "mentionedPersons": [
+                        "Jaber"
+                    ],
+                    "mentionedGroups": []
+                },
+                "expected": {
+                    "outcome": "Comment posted successfully but no one is notified.",
+                    "status": "Posted"
+                }
+            },
+            {
+                "name": "Empty Text and Mention",
+                "description": "Verify that the comment is rejected if no text or mention is there.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "",
+                    "mentionedPersons": [],
+                    "mentionedGroups": []
+                },
+                "expected": {
+                    "outcome": "Comment rejected.",
+                    "status": "Discarded"
+                }
+            },
+            {
+                "name": "Only Mentioning without Text",
+                "description": "Verify that the comment is posted even if it does not have a text but mentions some users/groups.",
+                "input": {
+                    "commentor": "Jaber",
+                    "commentText": "",
+                    "mentionedPersons": [
+                        "Amim"
+                    ],
+                    "mentionedGroups": [
+                        "CSE-325"
+                    ]
+                },
+                "expected": {
+                    "outcome": "Comment posted and mentioned persons and groups notified successfully",
+                    "status": "Posted"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "Suggest Edits to Content",
+            "scenario": "A user suggests edit to a block of a page content and the owner accepts or rejects the proposed change.",
+            "actors": "Page owner, Guest User",
+            "preconditions": "Guest user has enough privilege.",
+            "steps": [
+                "User selects a particular block of the page.",
+                "User writes a textual comment.",
+                "Alternatively, user may mention other persons or groups or pages."
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Acceptance by Owner",
+                "description": "Verify that the edit is properly reflected on the content when the owner approves the change.",
+                "input": {
+                    "previousContent": "A",
+                    "editedContent": "B",
+                    "owenerResponse": "Accept"
+                },
+                "expected": {
+                    "outcome": "Previous content replaced by suggested new content.",
+                    "status": "Updated"
+                }
+            },
+            {
+                "name": "Rejection by Owner",
+                "description": "Verify that the edit is discarded when the owner rejects the change.",
+                "input": {
+                    "previousContent": "A",
+                    "editedContent": "B",
+                    "owenerResponse": "Reject"
+                },
+                "expected": {
+                    "outcome": "Previous content not changed.",
+                    "status": "Unchanged"
+                }
+            }
+        ]
+    },
+    {
+        "usecase": {
+            "name": "View Page Analytics",
+            "scenario": "User accesses and views analytics data for a page including view counts and user interaction history",
+            "actors": "Page Owner, Page Editor",
+            "preconditions": "User has Full Access or Can Edit privileges for the page",
+            "steps": [
+                "User clicks on the clock icon in the top right of the page",
+                "User selects 'Analytics' option",
+                "System displays graph with total and unique page views",
+                "User can hover over specific days to see detailed view counts",
+                "System shows page creator information and recent viewer/editor list"
+            ]
+        },
+        "testcases": [
+            {
+                "name": "Valid Analytics View",
+                "description": "Verify that analytics data is correctly displayed for a user with proper permissions",
+                "input": {
+                    "user": "Kowshik",
+                    "permissionLevel": "Full Access",
+                    "pageId": "page123",
+                    "timeRange": "last 30 Days"
+                },
+                "expected": {
+                    "outcome": "Analytics graph and user interaction history displayed successfully",
+                    "status": "Displayed"
+                }
+            },
+            {
+                "name": "Unauthorized Access",
+                "description": "Verify that analytics are not accessible to users without proper permissions",
+                "input": {
+                    "user": "Muhit",
+                    "permissionLevel": "Can View",
+                    "pageId": "page123",
+                    "timeRange": "last 30 Days"
+                },
+                "expected": {
+                    "outcome": "Analytics access denied",
+                    "status": "Denied"
+                }
+            },
+            {
+                "name": "Opted Out User",
+                "description": "Verify that opted-out users' views are not recorded in analytics",
+                "input": {
+                    "user": "OptedOutUser1",
+                    "userSettings": {
+                        "optOutOfAnalytics": "true"
+                    },
+                    "permissionLevel": "Can Edit"
+                },
+                "expected": {
+                    "outcome": "Page view not recorded in analytics",
+                    "status": "Denied"
+                }
+            },
+            {
+                "name": "Hovering Interaction",
+                "description": "Verify that hovering over specific days shows correct detailed view counts",
+                "input": {
+                    "user": "Anik",
+                    "permissionLevel": "Full Access",
+                    "pageId": "page123",
+                    "hoverDate": "2024-10-18",
+                    "graphPoint": {
+                        "x": 250,
+                        "y": 150
+                    }
+                },
+                "expected": {
+                    "outcome": "Detailed view counts displayed for selected date",
+                    "status": "Displayed"
+                }
+            }
+        ]
+    }
+]

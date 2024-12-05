@@ -72,7 +72,7 @@
                 "expected": {
                     "outcome": "Retrieval failed",
                     "error": "No matching content found for specified type",
-                    "status": "NoResults"
+                    "status": "Failed"
                 }
             }
         ]
@@ -98,27 +98,12 @@
                     "existingContentType": "slides",
                     "existingContentTopic": "DNA Replication",
                     "requiredContentType": "slides",
-                    "requiredContentTopic": "DNA Replication Process"
+                    "requiredContentTopic": "DNA Replication Importance"
                 },
                 "expected": {
                     "outcome": "Modification successful",
                     "contentMatches": true,
                     "status": "Completed"
-                }
-            },
-            {
-                "name": "Type Mismatch",
-                "description": "Verify handling of incompatible content type conversion",
-                "input": {
-                    "existingContentType": "slides",
-                    "existingContentTopic": "Chemical Bonding",
-                    "requiredContentType": "flashcards",
-                    "requiredContentTopic": "Chemical Bonding Basics"
-                },
-                "expected": {
-                    "outcome": "Modification failed",
-                    "error": "Cannot convert between incompatible types",
-                    "status": "Rejected"
                 }
             }
         ]
@@ -177,7 +162,7 @@
                     "outcome": "Partial number of chunks retrieved",
                     "error": "Not enough chunks stored",
                     "resourceCount": 3,
-                    "status": "Partial Retrieval"
+                    "status": "Partially Retrieved"
                 }
             }
         ]
@@ -206,7 +191,7 @@
                         "Cell function descriptions"
                     ],
                     "contentType": "slides",
-                    "minimumContentLength": 1000
+                    "maximumTokenCount": 1000
                 },
                 "expected": {
                     "outcome": "Generation successful",
@@ -223,7 +208,7 @@
                         "Resource text 2"
                     ],
                     "contentType": "video",
-                    "minimumContentLength": 500
+                    "maximumTokenCount": 500
                 },
                 "expected": {
                     "outcome": "Generation failed",
@@ -236,10 +221,10 @@
                 "description": "Verify handling of insufficient content for required type",
                 "input": {
                     "retrievedResources": [
-                        "Definition of Photosynthesis"
+                        "One line Definition of Photosynthesis"
                     ],
                     "contentType": "slides",
-                    "minimumContentLength": 1000
+                    "maximumTokenCount": 1000
                 },
                 "expected": {
                     "outcome": "Generation failed",
